@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "policy_version": "0.1.0",
+  "status": "offline_prototype",
+  "data_run": "dc9801256aed94c6069941d5",
+  "objective": "Prefer supported choices for the actual champion, build, selected augments and offered cards; never override a reviewed incompatibility with popularity or tier.",
+  "strength_dimension": {
+    "source_tiers": "preserve_source_labels",
+    "combined_score": null,
+    "ranking_implemented": false
+  },
+  "compatibility_labels": {
+    "excluded": {
+      "label": "X",
+      "pt-BR": "Sem efeito aproveitável neste contexto"
+    },
+    "avoid": {
+      "label": "F",
+      "pt-BR": "Não pegar nesta build"
+    },
+    "conditional": {
+      "label": "COND",
+      "pt-BR": "Depende de adaptação ou interação"
+    },
+    "eligible": {
+      "label": "OK",
+      "pt-BR": "Elegível; força ainda não avaliada"
+    },
+    "unknown": {
+      "label": "?",
+      "pt-BR": "Compatibilidade não determinada"
+    }
+  },
+  "precedence": [
+    "reviewed_mechanical_exclusion",
+    "reviewed_build_conflict",
+    "conditional_tradeoff",
+    "eligibility",
+    "unknown"
+  ],
+  "hard_exclusion_requires": [
+    "Reviewed evidence that the effect cannot trigger",
+    "Reviewed evidence that the card has no other usable benefit",
+    "Reviewed evidence that the prerequisite cannot be acquired within the modeled decision horizon"
+  ],
+  "unknown_policy": "Unknown is not false, weak or excluded. Role labels, missing site rows, low win rate and low pick rate cannot establish mechanical exclusion.",
+  "context_policy": "All compatibility facts must refer to the offered candidate and the same champion/build/selected augment/item context; a context fingerprint is required. Unmodeled interactions prevent definitive exclusion.",
+  "source_evidence": [
+    {
+      "source": "opgg",
+      "path": "research/public-snapshots/opgg-augments-enus.json",
+      "sha256": "f28087dab19092c2a48af122d4992410295b381c933616f466010124758b93f3",
+      "selector": "data[id=1205|1206]",
+      "scope": "Effect description only; does not establish champion incompatibility."
+    },
+    {
+      "source": "aramkit",
+      "path": "research/aramkit-data/augments-en-US.json",
+      "sha256": "2c00ad142909e13a857f61ea87ad88e1fc886ae4f3dabf7961bc24204b6ac9a6",
+      "selector": "1205|1206",
+      "scope": "Effect description only; does not establish champion incompatibility."
+    }
+  ],
+  "conversion_cards": {
+    "augment:game:1205": {
+      "name": "ADAPt",
+      "input_stat": "bonus_attack_damage",
+      "output_stat": "ability_power",
+      "output_per_input": 1.67,
+      "output_bonus_percent": 15,
+      "description_review": "reviewed_catalog_only",
+      "profile_namespace": "ad_to_ap"
+    },
+    "augment:game:1206": {
+      "name": "escAPADe",
+      "input_stat": "ability_power",
+      "output_stat": "bonus_attack_damage",
+      "output_per_input": 0.6,
+      "additional_effect": "Source describes 15% Attack Damage gain; do not model it as a bonus-AD-only multiplier.",
+      "description_review": "reviewed_catalog_only",
+      "profile_namespace": "ap_to_ad"
+    }
+  },
+  "required_context_facts": [
+    "depends_on_input_stat",
+    "has_output_stat_payoff",
+    "has_output_bridge",
+    "build_committed",
+    "pivot_feasible"
+  ],
+  "rules_revision": 1,
+  "limitations": [
+    "No champion capability profiles are populated yet; champion role or conventional build is not a substitute.",
+    "Fixture facts are synthetic assumptions, not verified champion mechanics.",
+    "No quantitative estimate of conversion net value or recommendation ranking is implemented.",
+    "Catalog evidence cannot verify all champion, item and augment interactions.",
+    "New-patch update validation remains deferred."
+  ]
+}

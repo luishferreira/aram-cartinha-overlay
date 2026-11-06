@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "item_ids": {
+    "3097": {
+      "name": "Stormrazor",
+      "reason": "Absent from the installed LCU item catalog on 2026-11-06; omit the entire editorial core rather than invent a replacement.",
+      "source": "lemonnation"
+    }
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic_contract_fixtures",
+  "note": "These cases test decision semantics, not the mechanics of any actual champion. Fact reviews are assumptions in this test file only.",
+  "cases": [
+    {
+      "id": "committed_ad_no_ap_payoff",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": false,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "avoid"
+    },
+    {
+      "id": "conventional_ad_champion_with_ap_build",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:ap-path",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": false,
+        "ad_to_ap.has_output_stat_payoff": true,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "eligible"
+    },
+    {
+      "id": "hybrid_tradeoff",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": true,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "conditional"
+    },
+    {
+      "id": "selected_augment_supplies_ap_bridge",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [
+          "augment:fixture:ap-bridge"
+        ],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": false,
+        "ad_to_ap.has_output_bridge": true,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "conditional"
+    },
+    {
+      "id": "feasible_ap_pivot",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": false,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": false,
+        "ad_to_ap.pivot_feasible": true
+      },
+      "expected": "conditional"
+    },
+    {
+      "id": "unknown_ap_payoff_is_not_false",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": null,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "unknown"
+    },
+    {
+      "id": "role_label_only",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {},
+      "expected": "unknown"
+    },
+    {
+      "id": "inverse_conversion_conflict",
+      "context": {
+        "candidate_id": "augment:game:1206",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ap_to_ad.depends_on_input_stat": true,
+        "ap_to_ad.has_output_stat_payoff": false,
+        "ap_to_ad.has_output_bridge": false,
+        "ap_to_ad.build_committed": true,
+        "ap_to_ad.pivot_feasible": false
+      },
+      "expected": "avoid"
+    },
+    {
+      "id": "strict_no_effect",
+      "context": {
+        "candidate_id": "augment:fixture:untriggerable",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "card_effect_can_trigger": false,
+        "card_has_alternative_benefit": false,
+        "prerequisite_can_be_obtained": false
+      },
+      "expected": "excluded"
+    },
+    {
+      "id": "unavailable_now_but_obtainable_later",
+      "context": {
+        "candidate_id": "augment:fixture:untriggerable",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD"
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "card_effect_can_trigger": false,
+        "card_has_alternative_benefit": false,
+        "prerequisite_can_be_obtained": true
+      },
+      "expected": "unknown"
+    },
+    {
+      "id": "high_source_tier_cannot_override_conflict",
+      "context": {
+        "candidate_id": "augment:game:1205",
+        "champion_id": "champion:fixture:synthetic",
+        "selected_augments": [],
+        "items": [],
+        "stage": 3,
+        "build_id": "fixture:committed-ad",
+        "decision_horizon": "remainder_of_match",
+        "champion_conventional_label": "AD",
+        "source_tiers": {
+          "blitz": "S",
+          "opgg": "S"
+        },
+        "popularity": 0.99
+      },
+      "fact_assumptions": {
+        "interaction_review_complete": true,
+        "ad_to_ap.depends_on_input_stat": true,
+        "ad_to_ap.has_output_stat_payoff": false,
+        "ad_to_ap.has_output_bridge": false,
+        "ad_to_ap.build_committed": true,
+        "ad_to_ap.pivot_feasible": false
+      },
+      "expected": "avoid"
+    }
+  ]
+}

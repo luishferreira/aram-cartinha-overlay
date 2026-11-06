@@ -1,0 +1,765 @@
+{
+  "classifier_release": "ae91eef402c5eaf07c2e7254",
+  "purpose": "Discussion examples for general taxonomy and algorithm fixes, not per-build overrides or training truth",
+  "status": "awaiting_user_feedback",
+  "cases": [
+    {
+      "question_number": 1,
+      "record_id": "1c18891b834b4e44611fa60889cd81d7c26dfb6e0c988428babddbd2ce21097b",
+      "champion_id": 12,
+      "source_url": "https://lemonnation.gg/builds/alistar?build=build-1",
+      "source_tokens": [
+        {
+          "game_item_id": 4005,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3121,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3065,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 2502,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 6665,
+          "kind": "item",
+          "name": ""
+        }
+      ],
+      "current_classification": {
+        "assignments": [],
+        "candidates": [
+          {
+            "exact_core": false,
+            "feature_similarity": 0.908007,
+            "item_similarity": 0.267396,
+            "path": "tank",
+            "reference_item_ids": [
+              2502,
+              3065,
+              3084
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "5d5b0c2b9c57a8e0f764bfe7a92ce0bccc7aa0ce9ba2c57dc562b63565e837a5",
+            "shared_item_ids": [
+              2502,
+              3065
+            ],
+            "similarity": 0.395518
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.41574,
+            "item_similarity": 0.0,
+            "path": "ap",
+            "reference_item_ids": [
+              3152,
+              4645,
+              4646
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "944ece3830897c48e2c4bfb795f6f28d53f96e47fbe106efe269a3be11c662aa",
+            "shared_item_ids": [],
+            "similarity": 0.083148
+          }
+        ],
+        "classifier_version": "build-path-classifier-2",
+        "compatible_paths": [],
+        "confidence": "insufficient",
+        "feature_suggestions": [
+          {
+            "already_published_for_champion": true,
+            "path": "tank",
+            "similarity": 0.788797
+          },
+          {
+            "already_published_for_champion": false,
+            "path": "utility",
+            "similarity": 0.747347
+          },
+          {
+            "already_published_for_champion": false,
+            "path": "bruiser",
+            "similarity": 0.638118
+          }
+        ],
+        "flags": [
+          "insufficient_overlap_or_margin",
+          "editorial_unreviewed",
+          "source_patch_unknown"
+        ],
+        "ignored_items": [],
+        "margin": 0.31237,
+        "significant_item_ids": [
+          2502,
+          3065,
+          3121,
+          4005,
+          6665
+        ],
+        "similarity_is_probability": false,
+        "status": "unclassified",
+        "unknown_feature_item_ids": []
+      },
+      "proposed_for_discussion": {
+        "primary": "tank",
+        "tags": [
+          "utility"
+        ]
+      },
+      "user_review": null
+    },
+    {
+      "question_number": 2,
+      "record_id": "5992df705a5ba69a2a23099efd2278d4cfbe9935b3624185f2c6412b3b8e9811",
+      "champion_id": 16,
+      "source_url": "https://lemonnation.gg/builds/soraka?build=build-1",
+      "source_tokens": [
+        {
+          "game_item_id": 6617,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 2530,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "kind": "choose_one",
+          "options": [
+            {
+              "game_item_id": 6621,
+              "name": ""
+            },
+            {
+              "game_item_id": 3107,
+              "name": ""
+            }
+          ],
+          "source_label": "Choose one: Dawncore or Redemption"
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3089,
+          "kind": "item",
+          "name": ""
+        }
+      ],
+      "current_classification": {
+        "assignments": [],
+        "candidates": [
+          {
+            "exact_core": false,
+            "feature_similarity": 0.970725,
+            "item_similarity": 0.118123,
+            "path": "utility",
+            "reference_item_ids": [
+              2526,
+              3107,
+              6617
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "633110c2068f89db9bdc503926d510f987154f1952aca1990b6a517b519fa320",
+            "shared_item_ids": [
+              6617
+            ],
+            "similarity": 0.288644
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.866025,
+            "item_similarity": 0.128657,
+            "path": "ap",
+            "reference_item_ids": [
+              3083,
+              6617,
+              6657
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "a405e117c4a08d588261d3e9f35f0a646997293d70b7a8e46650ce1e03b311d6",
+            "shared_item_ids": [
+              6617
+            ],
+            "similarity": 0.276131
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.888889,
+            "item_similarity": 0.118123,
+            "path": "tank",
+            "reference_item_ids": [
+              3083,
+              3119,
+              6617
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "4592ae599ecff0df603907d0b6a1b2f4a6eb3b94b1f17be5a9a6acc45815b16a",
+            "shared_item_ids": [
+              6617
+            ],
+            "similarity": 0.272276
+          }
+        ],
+        "classifier_version": "build-path-classifier-2",
+        "compatible_paths": [],
+        "confidence": "insufficient",
+        "feature_suggestions": [
+          {
+            "already_published_for_champion": true,
+            "path": "utility",
+            "similarity": 0.977231
+          },
+          {
+            "already_published_for_champion": true,
+            "path": "ap",
+            "similarity": 0.760523
+          },
+          {
+            "already_published_for_champion": false,
+            "path": "hybrid",
+            "similarity": 0.628149
+          }
+        ],
+        "flags": [
+          "insufficient_overlap_or_margin",
+          "editorial_choices_preserved_only_mandatory_items_classified",
+          "editorial_unreviewed",
+          "source_patch_unknown"
+        ],
+        "ignored_items": [],
+        "margin": 0.012513,
+        "significant_item_ids": [
+          2530,
+          3089,
+          6617
+        ],
+        "similarity_is_probability": false,
+        "status": "unclassified",
+        "unknown_feature_item_ids": []
+      },
+      "proposed_for_discussion": {
+        "primary": "utility",
+        "tags": [
+          "healing"
+        ]
+      },
+      "user_review": null
+    },
+    {
+      "question_number": 3,
+      "record_id": "95ae9e3576fb81aaf0960b2bec2ab6c097943c01e754bc27cba1c73cfa1a709f",
+      "champion_id": 117,
+      "source_url": "https://lemonnation.gg/builds/lulu?build=build-1",
+      "source_tokens": [
+        {
+          "game_item_id": 3504,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 124011,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 6621,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "kind": "choose_one",
+          "options": [
+            {
+              "game_item_id": 3115,
+              "name": ""
+            },
+            {
+              "game_item_id": 6616,
+              "name": ""
+            },
+            {
+              "game_item_id": 6617,
+              "name": ""
+            }
+          ],
+          "source_label": "Choose one: Nashor's Tooth or Staff of Flowing Water or Moonstone Renewer"
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3089,
+          "kind": "item",
+          "name": ""
+        }
+      ],
+      "current_classification": {
+        "assignments": [],
+        "candidates": [
+          {
+            "exact_core": false,
+            "feature_similarity": 0.815088,
+            "item_similarity": 0.154008,
+            "path": "utility",
+            "reference_item_ids": [
+              3107,
+              3504,
+              6617
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "0a9f986f4b24f886df6f5fa36403fb65c9c3c72f1e18e1728fe2c22fb215805c",
+            "shared_item_ids": [
+              3504
+            ],
+            "similarity": 0.286224
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.644503,
+            "item_similarity": 0.154008,
+            "path": "ap",
+            "reference_item_ids": [
+              3089,
+              4645,
+              6655
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "5a62ccc8e26642ecd8a3b4c413d9b47434022bc23f3624fe08244f6c4a5290ae",
+            "shared_item_ids": [
+              3089
+            ],
+            "similarity": 0.252107
+          }
+        ],
+        "classifier_version": "build-path-classifier-2",
+        "compatible_paths": [],
+        "confidence": "insufficient",
+        "feature_suggestions": [
+          {
+            "already_published_for_champion": true,
+            "path": "ap",
+            "similarity": 0.692845
+          },
+          {
+            "already_published_for_champion": true,
+            "path": "utility",
+            "similarity": 0.673737
+          },
+          {
+            "already_published_for_champion": false,
+            "path": "hybrid",
+            "similarity": 0.522958
+          }
+        ],
+        "flags": [
+          "insufficient_overlap_or_margin",
+          "some_item_features_unknown",
+          "editorial_choices_preserved_only_mandatory_items_classified",
+          "editorial_unreviewed",
+          "source_patch_unknown"
+        ],
+        "ignored_items": [],
+        "margin": 0.034117,
+        "significant_item_ids": [
+          3089,
+          3504,
+          6621,
+          124011
+        ],
+        "similarity_is_probability": false,
+        "status": "unclassified",
+        "unknown_feature_item_ids": [
+          124011
+        ]
+      },
+      "proposed_for_discussion": {
+        "primary": "utility",
+        "tags": [
+          "healing_on_attack"
+        ]
+      },
+      "user_review": null
+    },
+    {
+      "question_number": 4,
+      "record_id": "b6706753a0733ac07ca3dcc53e2dac9cd774cf08df657eccb2ff8fbfe14795c0",
+      "champion_id": 81,
+      "source_url": "https://lemonnation.gg/builds/ezreal?build=traditional",
+      "source_tokens": [
+        {
+          "game_item_id": 3078,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3042,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3161,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 6694,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 2517,
+          "kind": "item",
+          "name": ""
+        }
+      ],
+      "current_classification": {
+        "assignments": [],
+        "candidates": [
+          {
+            "exact_core": false,
+            "feature_similarity": 0.949951,
+            "item_similarity": 0.365196,
+            "path": "bruiser",
+            "reference_item_ids": [
+              2517,
+              3004,
+              3078
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "af5f82188e0643360ea5943c9d3ea6d8ab6f5c0695117ca62e065f00fd96697e",
+            "shared_item_ids": [
+              2517,
+              3078
+            ],
+            "similarity": 0.482147
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.891133,
+            "item_similarity": 0.110881,
+            "path": "lethality",
+            "reference_item_ids": [
+              3004,
+              6676,
+              6694
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "bdda473988ddbaf770af548cd354ccd438b72cd926de9800587dd624142d371a",
+            "shared_item_ids": [
+              6694
+            ],
+            "similarity": 0.266932
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.881414,
+            "item_similarity": 0.106586,
+            "path": "ad",
+            "reference_item_ids": [
+              3004,
+              3508,
+              6694
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "98b8d7edd3bd77e155722322213683172cea01f6d537d6562365a72fb28d4826",
+            "shared_item_ids": [
+              6694
+            ],
+            "similarity": 0.261552
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.825029,
+            "item_similarity": 0.0,
+            "path": "crit",
+            "reference_item_ids": [
+              3004,
+              3508,
+              6676
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "3c959ab71055f1580e59c01aec2f499e23ec2916b8159244e5997d97e105d6b2",
+            "shared_item_ids": [],
+            "similarity": 0.165006
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.66835,
+            "item_similarity": 0.0,
+            "path": "ap",
+            "reference_item_ids": [
+              3004,
+              3100,
+              3118
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "c09b1c6a6566e8518a5b47f791b7d89206c8055d780627b3a5c307d6887baa25",
+            "shared_item_ids": [],
+            "similarity": 0.13367
+          }
+        ],
+        "classifier_version": "build-path-classifier-2",
+        "compatible_paths": [],
+        "confidence": "insufficient",
+        "feature_suggestions": [
+          {
+            "already_published_for_champion": true,
+            "path": "bruiser",
+            "similarity": 0.954045
+          },
+          {
+            "already_published_for_champion": true,
+            "path": "ad",
+            "similarity": 0.907537
+          },
+          {
+            "already_published_for_champion": true,
+            "path": "lethality",
+            "similarity": 0.865278
+          }
+        ],
+        "flags": [
+          "insufficient_overlap_or_margin",
+          "editorial_unreviewed",
+          "source_patch_unknown"
+        ],
+        "ignored_items": [],
+        "margin": 0.215215,
+        "significant_item_ids": [
+          2517,
+          3042,
+          3078,
+          3161,
+          6694
+        ],
+        "similarity_is_probability": false,
+        "status": "unclassified",
+        "unknown_feature_item_ids": []
+      },
+      "proposed_for_discussion": {
+        "primary": "bruiser",
+        "tags": [
+          "ad"
+        ]
+      },
+      "user_review": null
+    },
+    {
+      "question_number": 5,
+      "record_id": "205903931e00ac891e8c21f0c76a1752372c5a19657a105f8264fac1363bc6f8",
+      "champion_id": 21,
+      "source_url": "https://lemonnation.gg/builds/miss-fortune?build=build-1",
+      "source_tokens": [
+        {
+          "game_item_id": 126697,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 6696,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "game_item_id": 3031,
+          "kind": "item",
+          "name": ""
+        },
+        {
+          "kind": "separator",
+          "text": "→"
+        },
+        {
+          "kind": "choose_one",
+          "options": [
+            {
+              "game_item_id": 3033,
+              "name": ""
+            },
+            {
+              "game_item_id": 3036,
+              "name": ""
+            }
+          ],
+          "source_label": "Choose one: Mortal Reminder or Lord Dominik's Regards"
+        }
+      ],
+      "current_classification": {
+        "assignments": [],
+        "candidates": [
+          {
+            "exact_core": false,
+            "feature_similarity": 0.983415,
+            "item_similarity": 0.5,
+            "path": "lethality",
+            "reference_item_ids": [
+              6676,
+              6696,
+              126697
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "99e0aa8730697ce56fe522373f4771ff2d18a3b0efbe48119a4966d818cd23c6",
+            "shared_item_ids": [
+              6696,
+              126697
+            ],
+            "similarity": 0.596683
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.919255,
+            "item_similarity": 0.5,
+            "path": "crit",
+            "reference_item_ids": [
+              3031,
+              6676,
+              6696
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "ca9edf4e912068db14ec7751c7ff7727c6eac8d370ba1ee44accc9e2c6dc36e0",
+            "shared_item_ids": [
+              3031,
+              6696
+            ],
+            "similarity": 0.583851
+          },
+          {
+            "exact_core": false,
+            "feature_similarity": 0.28677,
+            "item_similarity": 0.0,
+            "path": "ap",
+            "reference_item_ids": [
+              2503,
+              4628,
+              6653
+            ],
+            "reference_patch": "16.21",
+            "reference_profile_id": "d75a5aad012c7e4d29825f5794eb0a7479881583d721de730c234702d7e1c987",
+            "shared_item_ids": [],
+            "similarity": 0.057354
+          }
+        ],
+        "classifier_version": "build-path-classifier-2",
+        "compatible_paths": [
+          "lethality",
+          "crit"
+        ],
+        "confidence": "ambiguous",
+        "feature_suggestions": [
+          {
+            "already_published_for_champion": true,
+            "path": "lethality",
+            "similarity": 0.989304
+          },
+          {
+            "already_published_for_champion": false,
+            "path": "ad",
+            "similarity": 0.875574
+          },
+          {
+            "already_published_for_champion": true,
+            "path": "crit",
+            "similarity": 0.856413
+          }
+        ],
+        "flags": [
+          "multiple_compatible_paths_not_a_confirmed_hybrid",
+          "editorial_choices_preserved_only_mandatory_items_classified",
+          "editorial_unreviewed",
+          "source_patch_unknown"
+        ],
+        "ignored_items": [],
+        "margin": 0.012832,
+        "significant_item_ids": [
+          3031,
+          6696,
+          126697
+        ],
+        "similarity_is_probability": false,
+        "status": "ambiguous",
+        "unknown_feature_item_ids": []
+      },
+      "proposed_for_discussion": {
+        "primary": "lethality",
+        "tags": [
+          "crit"
+        ]
+      },
+      "user_review": null
+    }
+  ]
+}

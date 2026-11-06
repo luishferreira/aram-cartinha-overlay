@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "note": "Identity only. These aliases do not assert identical effects or availability across releases.",
+  "arammayhem": {
+    "double_defense": {
+      "entity_id": "augment:game:2144",
+      "expected_internal_key": "DoubleDefense",
+      "reason": "Bolstered retains the DoubleDefense internal key; both source descriptions specify stronger ability shields scaling with target missing health."
+    },
+    "rabble_rousing": {
+      "entity_id": "augment:game:1067",
+      "expected_internal_key": "ARAM_RabbleRousing",
+      "reason": "Rejuvenation retains the RabbleRousing internal key and ability-use healing. Numeric effects and source availability differ and remain separate."
+    },
+    "void_immolation": {
+      "entity_id": "augment:game:1361",
+      "expected_internal_key": "ARAM_Quest_VoidImmolation",
+      "reason": "Icathia's Fall retains Quest_VoidImmolation; both descriptions explicitly identify the same Sunfire Aegis plus Hollow Radiance quest and Void Immolation reward."
+    }
+  }
+}

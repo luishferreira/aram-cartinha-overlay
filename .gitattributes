@@ -1,0 +1,3 @@
+# Sources and authored JSON have recorded hashes in offline releases.
+# Preserve exact bytes across clones; accept existing CRLF as a line ending.
+* -text whitespace=cr-at-eol

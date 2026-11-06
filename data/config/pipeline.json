@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "enabled_sources": ["blitz", "opgg", "aramkit", "arammayhem", "aramgg"],
+  "excluded_augment_sources": ["leagueofgraphs", "metasrc"],
+  "primary_sources": ["blitz", "opgg", "aramkit", "arammayhem"],
+  "locales": ["pt-BR", "en-US"],
+  "patch_aliases": {},
+  "patch_alias_policy": "Only add equivalences with explicit evidence; never infer from a suffix.",
+  "stale_after_days": 7,
+  "display_name_priority": ["opgg", "blitz", "aramkit", "arammayhem"],
+  "notes": "No AI, no Overwolf. Missing values remain unknown. Source tiers are not averaged."
+}

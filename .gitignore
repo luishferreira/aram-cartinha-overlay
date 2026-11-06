@@ -1,0 +1,134 @@
+# Python environments, dependency caches and test output.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.egg-info/
+.eggs/
+node_modules/
+
+# Local builds and release assets belong in GitHub Releases, not Git history.
+/build/
+/dist/
+/releases/
+/artifacts/
+*.exe
+*.dll
+*.pyd
+*.msi
+*.msix
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# SQLite databases and sidecars, including future locations.
+*.sqlite
+*.sqlite3
+*.db
+*.sqlite-*
+*.sqlite3-*
+*.db-*
+
+# Collected/generated data is local by default. Keep only authored configuration,
+# policies, scenarios and reviewed decisions. This also excludes current.json
+# pointers into generated runs that are not present in a fresh clone.
+/data/*
+!/data/README.md
+!/data/config/
+/data/config/*
+!/data/config/pipeline.json
+!/data/config/rules.json
+!/data/config/identity-aliases.json
+!/data/config/availability-observations.json
+
+!/data/item-sets/
+/data/item-sets/*
+!/data/item-sets/export-exclusions.json
+
+!/data/build-classification/
+/data/build-classification/*
+!/data/build-classification/reviews/
+!/data/build-classification/code-versions/
+
+!/data/recommendation/
+/data/recommendation/*
+!/data/recommendation/current.json
+!/data/recommendation/policies/
+!/data/recommendation/scenarios/
+!/data/recommendation/reviews/
+/data/recommendation/reviews/**
+!/data/recommendation/reviews/**/
+!/data/recommendation/reviews/**/judgments.json
+
+# Research scripts and written findings are source; snapshots, downloads,
+# browser exports and app inspection artifacts stay on the developer machine.
+/research/*
+!/research/*.py
+!/research/*.md
+!/research/aramkit-data/
+/research/aramkit-data/*
+!/research/aramkit-data/README.md
+
+# These fixtures are captured gameplay, not sanitized test images.
+# Keep their tests; the private fixtures remain available locally.
+/tests/fixtures/tab-icons-yasuo/
+/tests/fixtures/visual-selection/
+/tests/fixtures/yasuo-reroll/
+/captures/
+/recordings/
+/screenshots/
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.webm
+
+# Personal app/tool state and editor/OS files.
+/.agents/
+/.codex/
+.idea/
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Credentials and private signing material. Public .pub files may be tracked.
+.env
+.env.*
+!.env.example
+!.env.template
+.aws/
+.ssh/
+.npmrc
+.pypirc
+credentials.json
+credentials.*.json
+secrets.json
+secrets.*.json
+*.secrets.json
+*.local.json
+*.pem
+*.key
+*.pfx
+*.p12
+id_rsa
+id_ed25519

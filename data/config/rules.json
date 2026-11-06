@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "rules": [
+    {
+      "id": "editorial:vladimir-ethereal-weapon-982",
+      "status": "hypothesis",
+      "review_revision": 1,
+      "rule_type": "editorial_interaction",
+      "champions": [
+        "champion:game:8"
+      ],
+      "required_augments": [
+        "augment:game:1029",
+        "augment:game:1058"
+      ],
+      "required_items": [],
+      "alternative_augment_groups": [],
+      "conflicting_augments": [],
+      "validated_patches": {
+        "arammayhem": "26.21"
+      },
+      "explanation": {
+        "pt-BR": "Hipótese editorial: Ethereal Weapon permite que habilidades apliquem o efeito de Mystic Punch. Requer as duas cartas em Vladimir; frequência e funcionamento ainda precisam de validação.",
+        "en-US": "Editorial hypothesis: Ethereal Weapon enables abilities to apply Mystic Punch. Requires both augments on Vladimir; trigger behavior and frequency remain unverified."
+      },
+      "context_requirements": [],
+      "unmodeled_conditions_policy": "Needs contextual review before promotion.",
+      "conflict_review": "not_evaluated",
+      "quantitative_effect": "not_estimated",
+      "evidence": [
+        {
+          "source": "arammayhem",
+          "url": "https://arammayhem.com/combo/vladimir-ethereal-weapon-982/",
+          "artifact": "c0ff6e4aa5ba83b54b977ecb86c7c6bfdb4d02229c148aa9f1d73d6a3ed3d231",
+          "selector": "combos:url=https://arammayhem.com/combo/vladimir-ethereal-weapon-982/",
+          "basis": "Human-readable interpretation of editorial text; not verified in a match."
+        }
+      ]
+    },
+    {
+      "id": "editorial:katarina-jeweled-gauntlet-598",
+      "status": "hypothesis",
+      "review_revision": 1,
+      "rule_type": "editorial_interaction",
+      "champions": [
+        "champion:game:55"
+      ],
+      "required_augments": [
+        "augment:game:1048",
+        "augment:game:1092"
+      ],
+      "required_items": [],
+      "alternative_augment_groups": [],
+      "conflicting_augments": [],
+      "validated_patches": {
+        "arammayhem": "26.21"
+      },
+      "explanation": {
+        "pt-BR": "A fonte recomenda Jeweled Gauntlet com Vulnerability para Katarina. A interação é hipótese; não adotamos o multiplicador de dano anunciado nem pressupomos a melhor build.",
+        "en-US": "The source recommends Jeweled Gauntlet with Vulnerability on Katarina. This is a hypothesis; the advertised damage multiplier and optimal-build claim are not adopted."
+      },
+      "context_requirements": [
+        "A fonte também menciona itens de efeitos ao contato e roubo de vida; necessidade e alternativas não foram determinadas."
+      ],
+      "unmodeled_conditions_policy": "Needs contextual review before promotion.",
+      "conflict_review": "not_evaluated",
+      "quantitative_effect": "not_estimated",
+      "evidence": [
+        {
+          "source": "arammayhem",
+          "url": "https://arammayhem.com/combo/katarina-jeweled-gauntlet-598/",
+          "artifact": "1228565bae10fb9dee8141ffb9b556a1259b6c50a28a9e0f4caf45f11b9ccdb4",
+          "selector": "combos:url=https://arammayhem.com/combo/katarina-jeweled-gauntlet-598/",
+          "basis": "Human-readable interpretation of editorial text; not verified in a match."
+        }
+      ]
+    },
+    {
+      "id": "editorial:yuumi-circle-of-death-991",
+      "status": "hypothesis",
+      "review_revision": 1,
+      "rule_type": "editorial_interaction",
+      "champions": [
+        "champion:game:350"
+      ],
+      "required_augments": [
+        "augment:game:1015",
+        "augment:game:1353"
+      ],
+      "required_items": [],
+      "alternative_augment_groups": [],
+      "conflicting_augments": [],
+      "validated_patches": {
+        "arammayhem": "26.21"
+      },
+      "explanation": {
+        "pt-BR": "Hipótese editorial para Yuumi com Circle of Death e Tank Engine. A própria fonte depende de um aliado tanque e coordenação; as cartas sozinhas não satisfazem o contexto.",
+        "en-US": "Editorial hypothesis for Yuumi with Circle of Death and Tank Engine. The source also requires a tank ally and coordination; the augments alone do not satisfy the context."
+      },
+      "context_requirements": [
+        "Aliado tanque capaz de permanecer no combate.",
+        "Coordenação com o aliado."
+      ],
+      "unmodeled_conditions_policy": "Needs contextual review before promotion.",
+      "conflict_review": "not_evaluated",
+      "quantitative_effect": "not_estimated",
+      "evidence": [
+        {
+          "source": "arammayhem",
+          "url": "https://arammayhem.com/combo/yuumi-circle-of-death-991/",
+          "artifact": "aba5c9664fc6d6a127a529a20ac256fdb28f472e9bcfc8b853bcf1de1513b99d",
+          "selector": "combos:url=https://arammayhem.com/combo/yuumi-circle-of-death-991/",
+          "basis": "Human-readable interpretation of editorial text; not verified in a match."
+        }
+      ]
+    },
+    {
+      "id": "editorial:aatrox-protein-shake-742",
+      "status": "hypothesis",
+      "review_revision": 1,
+      "rule_type": "editorial_interaction",
+      "champions": [
+        "champion:game:266"
+      ],
+      "required_augments": [
+        "augment:game:1324"
+      ],
+      "required_items": [
+        "item:game:6662"
+      ],
+      "alternative_augment_groups": [],
+      "conflicting_augments": [],
+      "validated_patches": {
+        "arammayhem": "26.21"
+      },
+      "explanation": {
+        "pt-BR": "A explicação cita Protein Shake com Iceborn Gauntlet em Aatrox. Não tratamos Critical Healing, que também aparece na lista, como requisito comprovado. Resistências e demais itens continuam condições abertas.",
+        "en-US": "The explanation names Protein Shake with Iceborn Gauntlet on Aatrox. Critical Healing is listed but is not treated as a proven requirement. Resists and remaining items are unresolved conditions."
+      },
+      "context_requirements": [
+        "Resistências e composição dos demais itens precisam ser avaliadas."
+      ],
+      "unmodeled_conditions_policy": "Needs contextual review before promotion.",
+      "conflict_review": "not_evaluated",
+      "quantitative_effect": "not_estimated",
+      "evidence": [
+        {
+          "source": "arammayhem",
+          "url": "https://arammayhem.com/combo/aatrox-protein-shake-742/",
+          "artifact": "ed9f7c0653880029075e142c43298cadc3ce5615de8e435989a6b5b35a65321c",
+          "selector": "combos:url=https://arammayhem.com/combo/aatrox-protein-shake-742/",
+          "basis": "Human-readable interpretation of editorial text; not verified in a match."
+        }
+      ]
+    }
+  ],
+  "note": "Interpreted editorial hypotheses only. No verified_in_match rules or automatic promotion. All 666 source bundles also have separate review drafts in published runs."
+}

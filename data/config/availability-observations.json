@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "observations": [
+    {
+      "entity_id": "augment:arammayhem:void_rift",
+      "source_native_id": "void_rift",
+      "mode": "aram_mayhem",
+      "claim": "no_longer_available",
+      "review_status": "confirmed_by_user",
+      "recorded_on": "2026-10-30",
+      "observed_patch": null,
+      "evidence": {
+        "source": "user_conversation",
+        "statement": "essa carta realmente nao existe mais"
+      },
+      "interpretation": "Supports the source's retired availability for this card. Does not establish the removal patch or validate other retired entries."
+    }
+  ],
+  "note": "Human observations remain separate from original source snapshots. This registry is not automatically applied as a mechanical X/F veto by the current prototype."
+}

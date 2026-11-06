@@ -1,0 +1,136 @@
+{
+  "entries": [
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 1
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 2
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 3
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:3086",
+        "augment:game:1205",
+        "augment:game:1206"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 2
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1058",
+        "augment:game:1336",
+        "augment:game:1206"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 5
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1058",
+        "augment:game:1336",
+        "augment:game:1206"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 6
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1037",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 1
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1037",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 2
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1037",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 3
+    },
+    {
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:1058"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "pending",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 6
+    }
+  ],
+  "instructions_pt_BR": "Preencha preferência e justificativa. Ausência de dado não é veto. Não edite os relatórios gerados.",
+  "kind": "human_review_not_automatically_generated_truth"
+}

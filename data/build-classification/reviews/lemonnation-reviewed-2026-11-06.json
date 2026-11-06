@@ -1,0 +1,111 @@
+{
+  "status": "reviewed",
+  "basis": "User agreed with proposed categories, preferred AD for normal Ezreal, and accepted broader automatic inclusion. No per-build overrides were added.",
+  "classifier_release": "dbc0ac0858567585f5988a26",
+  "development_cases_not_independent_validation": true,
+  "cases": [
+    {
+      "question_number": 1,
+      "record_id": "1c18891b834b4e44611fa60889cd81d7c26dfb6e0c988428babddbd2ce21097b",
+      "primary_path_accepted_by_user": "tank",
+      "actual_primary_path": "tank",
+      "compatible_paths": [
+        "tank"
+      ],
+      "affinity_percentages": {
+        "ad": 0.0,
+        "ap": 11.6,
+        "bruiser": 0.0,
+        "crit": 0.0,
+        "hybrid": 0.0,
+        "lethality": 0.0,
+        "on_hit": 0.0,
+        "tank": 77.0,
+        "utility": 14.0
+      }
+    },
+    {
+      "question_number": 2,
+      "record_id": "5992df705a5ba69a2a23099efd2278d4cfbe9935b3624185f2c6412b3b8e9811",
+      "primary_path_accepted_by_user": "utility",
+      "actual_primary_path": "utility",
+      "compatible_paths": [
+        "utility"
+      ],
+      "affinity_percentages": {
+        "ad": 0.0,
+        "ap": 49.5,
+        "bruiser": 0.0,
+        "crit": 0.0,
+        "hybrid": 0.0,
+        "lethality": 0.0,
+        "on_hit": 0.0,
+        "tank": 20.0,
+        "utility": 67.5
+      }
+    },
+    {
+      "question_number": 3,
+      "record_id": "95ae9e3576fb81aaf0960b2bec2ab6c097943c01e754bc27cba1c73cfa1a709f",
+      "primary_path_accepted_by_user": "utility",
+      "actual_primary_path": "utility",
+      "compatible_paths": [
+        "utility"
+      ],
+      "affinity_percentages": {
+        "ad": 0.0,
+        "ap": 57.2,
+        "bruiser": 0.0,
+        "crit": 0.0,
+        "hybrid": 0.0,
+        "lethality": 0.0,
+        "on_hit": 6.67,
+        "tank": 9.33,
+        "utility": 71.33
+      }
+    },
+    {
+      "question_number": 4,
+      "record_id": "b6706753a0733ac07ca3dcc53e2dac9cd774cf08df657eccb2ff8fbfe14795c0",
+      "primary_path_accepted_by_user": "ad",
+      "actual_primary_path": "ad",
+      "compatible_paths": [
+        "ad",
+        "bruiser"
+      ],
+      "affinity_percentages": {
+        "ad": 100.0,
+        "ap": 0.0,
+        "bruiser": 64.0,
+        "crit": 0.0,
+        "hybrid": 0.0,
+        "lethality": 0.0,
+        "on_hit": 14.0,
+        "tank": 14.0,
+        "utility": 0.0
+      }
+    },
+    {
+      "question_number": 5,
+      "record_id": "205903931e00ac891e8c21f0c76a1752372c5a19657a105f8264fac1363bc6f8",
+      "primary_path_accepted_by_user": "lethality",
+      "actual_primary_path": "lethality",
+      "compatible_paths": [
+        "lethality",
+        "crit",
+        "ad"
+      ],
+      "affinity_percentages": {
+        "ad": 100.0,
+        "ap": 0.0,
+        "bruiser": 0.0,
+        "crit": 50.0,
+        "hybrid": 0.0,
+        "lethality": 50.0,
+        "on_hit": 0.0,
+        "tank": 0.0,
+        "utility": 0.0
+      }
+    }
+  ]
+}

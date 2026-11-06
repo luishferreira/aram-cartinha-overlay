@@ -1,0 +1,88 @@
+{
+  "source": "research\\live-validation\\20261030T224149.797765Z\\20261030T224149.797765Z.observation.json",
+  "source_sha256": "a7ebee56af25a39cce0bec0ca20a9a3816d887b3828bfaaecacc3ee85b13be47",
+  "expected_ids": [
+    1072,
+    1373,
+    1996
+  ],
+  "screen": {
+    "status": "captured",
+    "ocr_status": "recognized",
+    "width": 1920,
+    "height": 1080,
+    "ocr_lines": [
+      {
+        "text": "Alvorada Flamejante",
+        "words": [
+          {
+            "y": 436,
+            "height": 16,
+            "width": 87,
+            "text": "Alvorada",
+            "x": 495
+          },
+          {
+            "y": 436,
+            "height": 19,
+            "width": 102,
+            "text": "Flamejante",
+            "x": 588
+          }
+        ]
+      },
+      {
+        "text": "Engenho do Encolhimento",
+        "words": [
+          {
+            "y": 436,
+            "height": 19,
+            "width": 79,
+            "text": "Engenho",
+            "x": 838
+          },
+          {
+            "y": 436,
+            "height": 15,
+            "width": 23,
+            "text": "do",
+            "x": 923
+          },
+          {
+            "y": 436,
+            "height": 15,
+            "width": 128,
+            "text": "Encolhimento",
+            "x": 953
+          }
+        ]
+      },
+      {
+        "text": "Aprimoramento — Fulgor",
+        "words": [
+          {
+            "y": 436,
+            "height": 19,
+            "width": 149,
+            "text": "Aprimoramento",
+            "x": 1211
+          },
+          {
+            "y": 445,
+            "height": 2,
+            "width": 14,
+            "text": "—",
+            "x": 1366
+          },
+          {
+            "y": 436,
+            "height": 19,
+            "width": 59,
+            "text": "Fulgor",
+            "x": 1386
+          }
+        ]
+      }
+    ]
+  }
+}

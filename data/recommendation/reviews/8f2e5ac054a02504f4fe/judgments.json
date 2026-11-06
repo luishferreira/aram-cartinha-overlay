@@ -1,0 +1,156 @@
+{
+  "entries": [
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:1022"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 1,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:1022"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 2,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:1022"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-ap-para-on-hit",
+      "step": 3,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:3086",
+        "augment:game:1336",
+        "augment:game:1068"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 2,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1068",
+        "augment:game:1336",
+        "augment:game:1129"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 5,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1068",
+        "augment:game:1336",
+        "augment:game:1129"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "ashe-troca-com-itens-e-cartas",
+      "step": 6,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1068",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 1,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1068",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 2,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1118",
+        "augment:game:1068",
+        "augment:game:3086"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 3,
+      "unclear_indicators": []
+    },
+    {
+      "information_sufficient": null,
+      "missing_evidence": [],
+      "offered_candidates": [
+        "augment:game:1205",
+        "augment:game:1206",
+        "augment:game:1037"
+      ],
+      "preferred_candidate": null,
+      "reason": null,
+      "review_status": "optional",
+      "scenario_id": "senna-utilidade-para-critico",
+      "step": 6,
+      "unclear_indicators": []
+    }
+  ],
+  "instructions_pt_BR": "Use os indicadores para decidir. Se desejar registrar feedback, descreva o que foi suficiente, confuso ou faltou; não é necessário conhecer os nomes nem fornecer a resposta correta. Não edite os relatórios gerados.",
+  "kind": "optional_user_feedback_not_required_ground_truth"
+}

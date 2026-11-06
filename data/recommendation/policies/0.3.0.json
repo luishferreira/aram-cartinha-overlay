@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "policy_version": "0.3.0",
+  "status": "offline_decision_support_prototype",
+  "data_run": "dc9801256aed94c6069941d5",
+  "objective": "Prefer supported choices for the actual champion, build, selected augments and offered cards; never override a reviewed incompatibility with popularity or tier.",
+  "strength_dimension": {
+    "source_tiers": "preserve_source_labels",
+    "combined_score": null,
+    "ranking_implemented": false
+  },
+  "compatibility_labels": {
+    "excluded": {
+      "label": "X",
+      "pt-BR": "Sem efeito aproveitável neste contexto"
+    },
+    "avoid": {
+      "label": "F",
+      "pt-BR": "Não pegar nesta build"
+    },
+    "conditional": {
+      "label": "COND",
+      "pt-BR": "Depende de adaptação ou interação"
+    },
+    "eligible": {
+      "label": "OK",
+      "pt-BR": "Elegível; força ainda não avaliada"
+    },
+    "unknown": {
+      "label": "?",
+      "pt-BR": "Compatibilidade não determinada"
+    }
+  },
+  "precedence": [
+    "reviewed_mechanical_exclusion",
+    "reviewed_build_conflict",
+    "conditional_tradeoff",
+    "eligibility",
+    "unknown"
+  ],
+  "hard_exclusion_requires": [
+    "Reviewed evidence that the effect cannot trigger",
+    "Reviewed evidence that the card has no other usable benefit",
+    "Reviewed evidence that the prerequisite cannot be acquired within the modeled decision horizon"
+  ],
+  "unknown_policy": "Unknown is not false, weak or excluded. Role labels, missing site rows, low win rate and low pick rate cannot establish mechanical exclusion.",
+  "context_policy": "All compatibility facts must refer to the offered candidate and the same champion/build/selected augment/item context; a context fingerprint is required. Unmodeled interactions prevent definitive exclusion.",
+  "source_evidence": [
+    {
+      "source": "opgg",
+      "path": "research/public-snapshots/opgg-augments-enus.json",
+      "sha256": "f28087dab19092c2a48af122d4992410295b381c933616f466010124758b93f3",
+      "selector": "data[id=1205|1206]",
+      "scope": "Effect description only; does not establish champion incompatibility."
+    },
+    {
+      "source": "aramkit",
+      "path": "research/aramkit-data/augments-en-US.json",
+      "sha256": "2c00ad142909e13a857f61ea87ad88e1fc886ae4f3dabf7961bc24204b6ac9a6",
+      "selector": "1205|1206",
+      "scope": "Effect description only; does not establish champion incompatibility."
+    },
+    {
+      "source": "aramkit",
+      "path": "data/recommendation/registries/build-paths-dc9801256aed94c6069941d5.json",
+      "sha256": "594af8ca4d63a2bf483e368ff12dd59a781b4063531c8194e7b2d0adb1ab5dc4",
+      "selector": "paths",
+      "scope": "Native predefined paths and coverage, pinned to one data run."
+    }
+  ],
+  "conversion_cards": {
+    "augment:game:1205": {
+      "name": "ADAPt",
+      "input_stat": "bonus_attack_damage",
+      "output_stat": "ability_power",
+      "output_per_input": 1.67,
+      "output_bonus_percent": 15,
+      "description_review": "reviewed_catalog_only",
+      "profile_namespace": "ad_to_ap"
+    },
+    "augment:game:1206": {
+      "name": "escAPADe",
+      "input_stat": "ability_power",
+      "output_stat": "bonus_attack_damage",
+      "output_per_input": 0.6,
+      "additional_effect": "Source describes 15% Attack Damage gain; do not model it as a bonus-AD-only multiplier.",
+      "description_review": "reviewed_catalog_only",
+      "profile_namespace": "ap_to_ad"
+    }
+  },
+  "required_context_facts": [
+    "depends_on_input_stat",
+    "has_output_stat_payoff",
+    "has_output_bridge",
+    "build_committed",
+    "pivot_feasible"
+  ],
+  "rules_revision": 2,
+  "limitations": [
+    "No champion capability profiles are populated yet; champion role or conventional build is not a substitute.",
+    "Fixture facts are synthetic assumptions, not verified champion mechanics.",
+    "No quantitative estimate of conversion net value or recommendation ranking is implemented.",
+    "Catalog evidence cannot verify all champion, item and augment interactions.",
+    "New-patch update validation remains deferred.",
+    "Build-path profiles remain observational and conditional on a single augment, not the joint selected augment set or current purchased items."
+  ],
+  "build_paths": {
+    "source": "aramkit",
+    "registry_path": "data/recommendation/registries/build-paths-dc9801256aed94c6069941d5.json",
+    "registry_sha256": "594af8ca4d63a2bf483e368ff12dd59a781b4063531c8194e7b2d0adb1ab5dc4",
+    "selection": "Predefined paths only, per champion. All are available, one active; no custom planned item selection.",
+    "switching": "Manual switch allowed during game; preserve purchased items and selected augments, invalidate prior context reviews.",
+    "evidence_fallback": "Champion-only evidence remains explicitly unconditioned on path; no missing profile is an automatic veto.",
+    "profile_summary": "Largest published sample is an illustration, never max-WR selection or a causal estimate."
+  },
+  "offline_evaluation": {
+    "ranking_implemented": false,
+    "strength_tiers_implemented": false,
+    "layers": [
+      "compatibility_contract_fixtures",
+      "all_champion_native_path_coverage",
+      "simulated_gameplay_real_evidence_replays",
+      "human_judgments",
+      "localized_card_effects_and_separate_source_indicators"
+    ],
+    "fingerprint_optional_fields": [
+      "data_run",
+      "policy_version",
+      "path_snapshot_id",
+      "level",
+      "capability_profile_revision"
+    ],
+    "ground_truth": "User feedback is optional and focuses on information sufficiency. This prototype does not need expert labels to expose source indicators.",
+    "scenario_constraints": "The review suite uses source-known same-rarity offers. This alone does not establish legal offers or stage eligibility."
+  },
+  "decision_support": {
+    "module_version": "0.1.0",
+    "purpose": "Show recognizable card effects and source indicators so the player can decide without providing expert labels.",
+    "primary": [
+      "localized_effect",
+      "blitz_champion_tier",
+      "opgg_champion_tier",
+      "opgg_calculated_popularity_position",
+      "aramkit_stage_or_overall_wr_and_sample",
+      "aramgg_current_champion_wr_and_sample",
+      "path_profile_coverage"
+    ],
+    "details": [
+      "completed_build_profile",
+      "source_patch_and_dates",
+      "undefined_raw_indices",
+      "arammayhem_global_tier_and_editorial_bundles"
+    ],
+    "rules": [
+      "Never relabel general champion tiers as selected-path tiers.",
+      "Never render OP.GG performance index as win rate or undefined popularity as percent.",
+      "Use unknown for missing data, not weakness.",
+      "Expose description fallback and unresolved values.",
+      "Do not require the user to supply the best-card label."
+    ],
+    "combined_tier": null,
+    "automatic_winner": null
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "note": "Simulated offers with real IDs; not proof of legal simultaneous offers or optimal choices.",
+  "scenarios": [
+    {
+      "id": "ashe-ap-para-on-hit",
+      "kind": "simulated_offers_real_data",
+      "initial_state": {
+        "champion_id": "champion:game:22",
+        "active_path": "ap",
+        "selected_augments": [],
+        "items": [],
+        "offered_augments": [],
+        "stage": 1
+      },
+      "events": [
+        {
+          "action": "offer",
+          "augments": [
+            "augment:game:1205",
+            "augment:game:1206",
+            "augment:game:1022"
+          ]
+        },
+        {
+          "action": "switch_path",
+          "path": "on_hit"
+        },
+        {
+          "action": "switch_path",
+          "path": "ap"
+        }
+      ],
+      "require_same_rarity": true
+    },
+    {
+      "id": "ashe-troca-com-itens-e-cartas",
+      "kind": "simulated_offers_real_data",
+      "initial_state": {
+        "champion_id": "champion:game:22",
+        "active_path": "ap",
+        "selected_augments": [],
+        "items": [],
+        "offered_augments": [],
+        "stage": 1
+      },
+      "events": [
+        {
+          "action": "buy",
+          "item": "item:game:3118"
+        },
+        {
+          "action": "offer",
+          "augments": [
+            "augment:game:3086",
+            "augment:game:1336",
+            "augment:game:1068"
+          ]
+        },
+        {
+          "action": "pick",
+          "augment": "augment:game:3086"
+        },
+        {
+          "action": "advance_stage",
+          "stage": 2
+        },
+        {
+          "action": "offer",
+          "augments": [
+            "augment:game:1068",
+            "augment:game:1336",
+            "augment:game:1129"
+          ]
+        },
+        {
+          "action": "switch_path",
+          "path": "on_hit"
+        }
+      ],
+      "require_same_rarity": true
+    },
+    {
+      "id": "senna-utilidade-para-critico",
+      "kind": "simulated_offers_real_data",
+      "initial_state": {
+        "champion_id": "champion:game:235",
+        "active_path": "utility",
+        "selected_augments": [],
+        "items": [],
+        "offered_augments": [],
+        "stage": 1
+      },
+      "events": [
+        {
+          "action": "offer",
+          "augments": [
+            "augment:game:1118",
+            "augment:game:1068",
+            "augment:game:3086"
+          ]
+        },
+        {
+          "action": "switch_path",
+          "path": "crit"
+        },
+        {
+          "action": "buy",
+          "item": "item:game:6617"
+        },
+        {
+          "action": "pick",
+          "augment": "augment:game:1118"
+        },
+        {
+          "action": "advance_stage",
+          "stage": 2
+        },
+        {
+          "action": "offer",
+          "augments": [
+            "augment:game:1205",
+            "augment:game:1206",
+            "augment:game:1037"
+          ]
+        }
+      ],
+      "require_same_rarity": true
+    }
+  ]
+}
