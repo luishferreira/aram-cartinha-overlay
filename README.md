@@ -8,7 +8,7 @@ Overlay: abrir `Iniciar Debug.cmd`; ocultar com `Ctrl+F8`; fechar com `Ctrl+F9` 
 
 Arsenais: o overlay real também importa os caminhos estáticos do campeão selecionado no ARAM Mayhem, antes da partida, preservando conjuntos pessoais e de outros apps. Cobertura local: 485 caminhos em 173 campeões, com comparação de fontes dentro de cada caminho; importa somente os caminhos do campeão atual. A prévia não modifica o cliente. [Como funciona, comandos e backups](docs/data/static-item-sets.md).
 
-Distribuição: a [base compacta do overlay](docs/runtime-data-pack.md) separa a pesquisa dos arquivos usados pelo aplicativo. O pacote de dados contém SQLite, catálogos PT-BR/inglês e arsenais, em aproximadamente 20,6 MB compactados. Executável e atualizador ainda não foram gerados.
+Distribuição: a [base compacta do overlay](docs/runtime-data-pack.md) separa a pesquisa dos arquivos usados pelo aplicativo. O [executável e instalador Windows](docs/windows-distribution.md) incluem Python, dependências e os dados. A atualização automática por launcher continua como etapa futura.
 
 Git: [arquivos versionados e dados locais](docs/repository-files.md). Um clone contém o código e as regras; os dados de execução serão distribuídos pelos assets das releases.
 

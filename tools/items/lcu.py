@@ -2,12 +2,14 @@
 import base64
 from dataclasses import dataclass, field
 import json
+import os
 from pathlib import Path
 import re
 import ssl
 import subprocess
 import urllib.error
 import urllib.request
+from tools.system_process import run as run_system
 
 
 class ClientUnavailable(RuntimeError):
@@ -33,7 +35,8 @@ def discover():
     # Query process metadata, not game memory. Never print the command line.
     command = "Get-CimInstance Win32_Process -Filter \"name='LeagueClientUx.exe'\" | Select-Object CommandLine,ExecutablePath | ConvertTo-Json -Compress"
     try:
-        result = subprocess.run(["powershell.exe", "-NoProfile", "-Command", command],
+        executable = Path(os.environ.get('SystemRoot','C:/Windows'))/'System32/WindowsPowerShell/v1.0/powershell.exe'
+        result = run_system([str(executable), "-NoProfile", "-Command", command],
                                 capture_output=True, encoding="utf-8", errors="replace", timeout=8,
                                 creationflags=subprocess.CREATE_NO_WINDOW)
         rows = json.loads(result.stdout.lstrip("\ufeff") or "[]")

@@ -5,6 +5,7 @@ from pathlib import Path
 import queue
 import subprocess
 import threading
+from tools.system_process import popen
 
 
 class OcrSession:
@@ -15,7 +16,7 @@ class OcrSession:
 
     def _start(self):
         executable = Path(os.environ.get("SystemRoot","C:/Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
-        self.process = subprocess.Popen([str(executable),"-NoProfile","-File",str(Path(__file__).with_name("ocr_server.ps1"))],
+        self.process = popen([str(executable),"-NoProfile","-File",str(Path(__file__).with_name("ocr_server.ps1"))],
                                         stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
                                         text=True,encoding="utf-8",errors="replace",bufsize=1,
                                         creationflags=subprocess.CREATE_NO_WINDOW)

@@ -6,6 +6,7 @@ import time
 from tools.items.static_sets import ROOT, load_export, encode
 from tools.items.lcu import Lcu, ClientUnavailable, LcuError, champion_context
 from tools.items.import_sets import Importer
+from tools.app_paths import local_root
 
 
 class ItemSetWatcher:
@@ -17,7 +18,7 @@ class ItemSetWatcher:
         value = {"state":state, **fields}
         signature = json.dumps(value, sort_keys=True)
         if signature != self.status_signature:
-            folder = self.root/"data/local/item-sets"
+            folder = local_root(self.root)/'item-sets'
             folder.mkdir(parents=True, exist_ok=True)
             temporary = folder/"status.tmp"
             temporary.write_bytes(encode(value))

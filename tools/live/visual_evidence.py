@@ -5,7 +5,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "data/local/overlay-deps"))
+if not getattr(sys,'frozen',False):
+    sys.path.insert(0, str(ROOT / "data/local/overlay-deps"))
 import numpy as np
 from PIL import Image
 

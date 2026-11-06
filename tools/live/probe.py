@@ -21,6 +21,7 @@ import sys
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from tools.live.common import normalized
+from tools.system_process import run as run_system
 PRIVATE_KEYS = {"summonername", "riotid", "riotidgamename", "riotidtagline", "puuid", "summonerid"}
 
 
@@ -114,7 +115,7 @@ def capture(destination, ocr, *, native_titles=False, input_image=None, session=
         command.append("-NativeTitles")
     if input_image is not None:
         command.extend(["-InputImage", str(input_image)])
-    result = subprocess.run(command, capture_output=True, encoding="utf-8", errors="replace",
+    result = run_system(command, capture_output=True, encoding="utf-8", errors="replace",
                             timeout=25, creationflags=subprocess.CREATE_NO_WINDOW)
     if result.returncode:
         return {"status": "capture_error", "detail": result.stderr[-1500:]}

@@ -7,6 +7,7 @@ from pathlib import Path
 import time
 
 from tools.items.static_sets import ROOT, encode, digest, validate_set
+from tools.app_paths import local_root
 
 
 def projection(value):
@@ -46,7 +47,7 @@ def state_signature(collection):
 class Importer:
     def __init__(self, bundle, root=ROOT):
         self.bundle = bundle
-        self.folder = Path(root)/"data/local/item-sets"
+        self.folder = local_root(root)/'item-sets'
         self.folder.mkdir(parents=True, exist_ok=True)
         self.owned = set(bundle.get('managed_uids', [s['uid'] for s in bundle['itemSets']]))
         if not {s['uid'] for s in bundle['itemSets']} <= self.owned:

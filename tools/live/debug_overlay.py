@@ -15,9 +15,11 @@ import time
 import traceback
 from datetime import datetime, timezone
 
-ROOT = Path(__file__).resolve().parents[2]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+SOURCE_ROOT = Path(__file__).resolve().parents[2]
+if str(SOURCE_ROOT) not in sys.path:
+    sys.path.insert(0, str(SOURCE_ROOT))
+from tools.app_paths import app_root,local_root
+ROOT = app_root()
 
 from tools.live.offer_reader import load_names, read_offer
 from tools.live.probe import capture, fetch_local, identify_champion
@@ -56,7 +58,7 @@ class DebugApp:
         self.first_offer_saved = False
         self.panel_width = 300
         self.panel_height = 180
-        self.local = ROOT / "data/local/debug-overlay"
+        self.local = local_root(ROOT)/'debug-overlay'
         self.local.mkdir(parents=True, exist_ok=True)
         (self.local / "matches").mkdir(exist_ok=True)
         run = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
@@ -310,7 +312,7 @@ def main():
     parser.add_argument("--x", type=int, default=15)
     parser.add_argument("--y", type=int, default=30)
     args = parser.parse_args()
-    local = ROOT / "data/local/debug-overlay"
+    local = local_root(ROOT)/'debug-overlay'
     local.mkdir(parents=True, exist_ok=True)
     if args.stop:
         (local / "stop.request").touch()

@@ -10,7 +10,8 @@ import time
 
 from tools.recommendation.card_evidence import plain, popularity_ranks
 
-ROOT = Path(__file__).resolve().parents[2]
+from tools.app_paths import app_root
+ROOT = app_root()
 MODULE_VERSION="live-source-cards-0.2.0"
 
 

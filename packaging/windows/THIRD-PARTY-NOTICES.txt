@@ -1,0 +1,12 @@
+This application bundles Python, Tcl/Tk, NumPy and Pillow using PyInstaller.
+Third-party software remains under its respective licenses.
+
+Python: https://docs.python.org/3/license.html
+Tcl/Tk: https://www.tcl-lang.org/software/tcltk/license.html
+NumPy: https://github.com/numpy/numpy/blob/main/LICENSE.txt
+Pillow: https://github.com/python-pillow/Pillow/blob/main/LICENSE
+PyInstaller bootloader: https://pyinstaller.org/en/stable/license.html
+
+Bundled library license files are included alongside the corresponding runtime
+files when provided by the upstream package. Data-source metadata and provenance
+are retained in the verified data pack; software licenses do not relicense that data.

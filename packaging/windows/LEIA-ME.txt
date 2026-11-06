@@ -1,0 +1,36 @@
+Aram Cartinha Overlay — versão experimental 0.1.0-alpha.2
+
+INSTALAÇÃO
+Execute o Setup para instalar no seu usuário, ou extraia a pasta inteira do ZIP
+portátil. Abra AramCartinhaOverlay.exe. Python e os dados já estão incluídos.
+Não mova somente o EXE: mantenha _internal e data junto dele.
+
+USO
+Abra antes da seleção de campeão de ARAM Mayhem.
+Ctrl+F8: ocultar/mostrar. Ctrl+F9: fechar.
+AramCartinhaOverlay.exe --demo abre a prévia sem consultar a partida.
+AramCartinhaOverlay.exe --stop fecha as janelas do overlay.
+
+COMPATIBILIDADE
+Windows 10 2004 ou superior, x64. Calibrado para 1920x1080, borderless e LoL
+PT-BR. O reconhecimento depende do OCR e dos idiomas instalados no Windows.
+O catálogo também inclui nomes em inglês; outras configurações ainda precisam
+de validação. Esta versão não instala recursos de idioma automaticamente.
+
+DADOS PESSOAIS
+Históricos, capturas de diagnóstico, logs e backups dos arsenais ficam em:
+%LOCALAPPDATA%\AramCartinhaOverlay
+Essa pasta é preservada ao reinstalar ou desinstalar o programa.
+Nunca envie essa pasta inteira sem revisar os dados de partidas nela contidos.
+
+DIAGNÓSTICO
+AramCartinhaOverlay.exe --self-test
+Salva diagnostics\self-test.json na pasta de dados pessoais. O diagnóstico
+valida os dados locais e o OCR usando texto sintético, sem modificar o LoL.
+
+ATUALIZAÇÕES
+O instalador de uma versão nova pode ser executado sobre a anterior, com o
+overlay fechado. A atualização automática por launcher ainda não foi incluída.
+O executável e o instalador desta prévia ainda não têm assinatura de editor.
+
+Projeto: https://github.com/luishferreira/aram-cartinha-overlay
