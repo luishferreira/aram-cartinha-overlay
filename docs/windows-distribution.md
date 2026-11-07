@@ -42,7 +42,7 @@ AramCartinhaOverlay.exe --demo
 AramCartinhaOverlay.exe --stop
 ```
 
-O diagnóstico testa Tk, dependências embarcadas, hashes do pacote, cartas, combos, nomes, os arsenais e o OCR do Windows. Não é uma partida simulada completa. `ARAM_CARTINHA_USER_DIR` permite isolar o perfil em testes; exige caminho absoluto e só é usado no executável empacotado.
+O diagnóstico testa Tk, dependências embarcadas, hashes do pacote, cartas, combos, nomes, os arsenais e o OCR do Windows. Não é uma partida simulada completa. `ARAM_CARTINHA_USER_DIR` permite isolar o perfil em testes ou compartilhar explicitamente um perfil durante a recuperação pelo código-fonte; exige caminho absoluto.
 
 Verificações realizadas nesta máquina:
 

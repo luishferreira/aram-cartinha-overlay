@@ -1,12 +1,31 @@
 """Start OS utilities without inheriting PyInstaller's DLL directory."""
 import ctypes
+import ntpath
 import os
-from pathlib import Path
 import subprocess
 import sys
 import threading
 
 _lock = threading.RLock()
+
+
+def child_environment(environment,bundle):
+    """Filter bundle paths lexically; never traverse unrelated PATH symlinks/mounts."""
+    result=dict(environment)
+    bundled=ntpath.normcase(ntpath.normpath(os.fspath(bundle)))
+    paths=[]
+    for entry in result.get('PATH','').split(os.pathsep):
+        if not entry:
+            continue
+        normalized=ntpath.normcase(ntpath.normpath(entry.strip('"')))
+        try:
+            inside=ntpath.commonpath([normalized,bundled])==bundled
+        except ValueError:
+            inside=False
+        if not inside:
+            paths.append(entry)
+    result['PATH']=os.pathsep.join(paths)
+    return result
 
 
 def popen(args, **kwargs):
@@ -16,10 +35,8 @@ def popen(args, **kwargs):
         kernel = ctypes.WinDLL('kernel32',use_last_error=True)
         kernel.SetDllDirectoryW.argtypes = [ctypes.c_wchar_p]
         kernel.SetDllDirectoryW.restype = ctypes.c_int
-        bundle = str(Path(sys._MEIPASS).resolve())
-        env = dict(kwargs.pop('env',os.environ))
-        env['PATH'] = os.pathsep.join(p for p in env.get('PATH','').split(os.pathsep)
-                                    if p and not Path(p).resolve().is_relative_to(Path(bundle)))
+        bundle = os.fspath(sys._MEIPASS)
+        env = child_environment(kwargs.pop('env',os.environ),bundle)
         if not kernel.SetDllDirectoryW(None):
             raise ctypes.WinError(ctypes.get_last_error())
         try:

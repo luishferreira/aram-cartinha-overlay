@@ -1,4 +1,4 @@
-Aram Cartinha Overlay — versão experimental 0.1.0-alpha.2
+Aram Cartinha Overlay — versão experimental 0.1.0-alpha.3
 
 INSTALAÇÃO
 Execute o Setup para instalar no seu usuário, ou extraia a pasta inteira do ZIP

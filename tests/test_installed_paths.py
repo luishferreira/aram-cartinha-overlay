@@ -6,7 +6,7 @@ import unittest
 from unittest.mock import patch
 
 from tools.app_paths import app_root,local_root
-from tools.system_process import run
+from tools.system_process import run,child_environment
 
 
 class InstalledPathTests(unittest.TestCase):
@@ -35,6 +35,26 @@ class InstalledPathTests(unittest.TestCase):
     def test_missing_windows_profile_is_reported(self):
         with patch.object(sys,'frozen',True,create=True),patch.dict(os.environ,{},clear=True):
             with self.assertRaises(RuntimeError):local_root()
+
+    def test_unrelated_path_mount_is_not_resolved_or_modified(self):
+        original={'PATH':os.pathsep.join(['C:/Windows/System32','C:/nvm4w/nodejs',
+                                         'C:/Apps/Overlay/_internal','C:/Apps/Overlay/_internal/numpy.libs']),
+                  'EXAMPLE':'preserved'}
+        with patch.object(Path,'resolve',side_effect=OSError(448,'Untrusted mount point')):
+            clean=child_environment(original,'C:/Apps/Overlay/_internal')
+        self.assertEqual(clean['PATH'],os.pathsep.join(['C:/Windows/System32','C:/nvm4w/nodejs']))
+        self.assertEqual(clean['EXAMPLE'],'preserved')
+        self.assertIn('numpy.libs',original['PATH'])
+
+    def test_child_path_filter_uses_boundaries_not_shared_name_prefix(self):
+        original={'PATH':os.pathsep.join(['C:/App/_internal-other','D:/tools',
+                                         '"c:\\APP\\_internal\\lib"','.'])}
+        clean=child_environment(original,'C:/App/_internal')
+        self.assertEqual(clean['PATH'],os.pathsep.join(['C:/App/_internal-other','D:/tools','.']))
+
+    def test_source_can_explicitly_share_existing_installed_profile_for_recovery(self):
+        with patch.object(sys,'frozen',False,create=True),patch.dict(os.environ,{'ARAM_CARTINHA_USER_DIR':'C:/tests/existing-profile'}):
+            self.assertEqual(local_root(),Path('C:/tests/existing-profile'))
 
     def test_system_process_returns_output_and_preserves_nonzero_status(self):
         with patch.object(sys,'frozen',False,create=True):
