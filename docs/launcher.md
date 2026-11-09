@@ -1,10 +1,12 @@
 # Launcher de pré-jogo — 08/11/2026
 
-Implementado no mesmo processo do overlay; a versão local atual é `0.1.0-alpha.9`. Abrir pelo atalho do Iniciar mostra uma janela normal, com conexão com o LoL e importação de arsenais. Fechar pelo X minimiza; `Sair do app` ou Ctrl+F9 encerram tudo. Abrir novamente o atalho solicita que a instância existente reapareça, sem duplicar coletores/importadores.
+Implementado no mesmo processo do overlay; a versão publicada atual é `0.1.0-alpha.10`. Abrir pelo atalho do Iniciar mostra uma janela normal, com conexão com o LoL e importação de arsenais. Fechar pelo X minimiza; `Sair do app` ou Ctrl+F9 encerram tudo. Abrir novamente o atalho solicita que a instância existente reapareça, sem duplicar coletores/importadores.
 
 A alpha.7 substitui os três blocos explicativos por uma linha de status: conexão, importação durante a seleção e aviso de overlay oculto somente quando aplicável. Remove rodapés de instrução, legendas de clique e o botão duplicado de minimizar. A busca filtra enquanto se digita, ignorando acentos e pontuação, e esconde os detalhes antigos quando não há resultados. O próprio campeão recebe o selo “Você”. Feitiços usam colunas de escolha/vitória; as fontes continuam separadas com seus patches. A versão instalada aparece na aba Atualizações, que mantém erros e ações de recuperação, sem explicações técnicas permanentes sobre downloads.
 
 ## Seleção e consulta
+
+A alpha.10 corrige especificamente o ícone da barra de tarefas: `WM_SETICON` define os ícones pequeno e grande no HWND externo do Tk e reaplica após mapear a janela. Os testes e o diagnóstico leem `WM_GETICON`, sem se limitar à leitura do ICO. O arquivo `app.ico` também fica ao lado do EXE e é a origem explícita dos ícones dos atalhos. A identidade de processo é definida antes de criar a interface. Referências: [WM_SETICON](https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-seticon), [WM_GETICON](https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-geticon) e [AppUserModelID](https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-setcurrentprocessexplicitappusermodelid).
 
 A alpha.9 define a identidade de barra de tarefas `AramCartinha.Overlay` e aplica um ícone próprio às janelas, executável, instalador e atalho principal. `assets/app.ico` inclui tamanhos de 16 a 256 px; a arte original e sua geração ficam em `tools/release/app_icon.py`. Não depende do ícone padrão do Python.
 

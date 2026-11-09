@@ -1,6 +1,6 @@
 # LoL ARAM Mayhem — base local de dados
 
-[Baixar a versão Windows mais recente](https://github.com/luishferreira/aram-cartinha-overlay/releases/tag/v0.1.0-alpha.9) — use o **Setup x64** para instalar pelo Iniciar ou o **ZIP portátil** para extrair e executar. Os dados e as dependências estão incluídos.
+[Baixar a versão Windows mais recente](https://github.com/luishferreira/aram-cartinha-overlay/releases/tag/v0.1.0-alpha.10) — use o **Setup x64** para instalar pelo Iniciar ou o **ZIP portátil** para extrair e executar. Os dados e as dependências estão incluídos.
 
 Projeto pessoal com base local de dados e primeiro overlay de debug para validar a captura de estado do jogo. Sem IA na primeira versão e sem Overwolf. O debug consulta o campeão pela API local, lê ofertas por captura/OCR e acompanha escolhas inferidas, antes de integrar o motor. League of Graphs e METAsrc ficam fora das cartas por enquanto; os arquivos de pesquisa permanecem preservados.
 

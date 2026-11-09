@@ -27,10 +27,12 @@ def self_test(report):
     result={'app':APP_NAME,'version':APP_VERSION,'frozen':bool(getattr(sys,'frozen',False)),
             'python':sys.version.split()[0],'application_dir':str(app_root()),'user_dir':str(local_root())}
     try:
-        from tools.app_identity import set_app_id,apply_icon,icon_path
+        from tools.app_identity import set_app_id,apply_icon,icon_path,native_icons_ready
         set_app_id()
         window=tk.Tk();window.withdraw()
         apply_icon(window)
+        result['native_window_icons']=native_icons_ready(window)
+        if not result['native_window_icons']:raise RuntimeError('Native window icons are missing')
         with Image.open(icon_path()) as app_icon:
             result['app_icon']=app_icon.format=='ICO' and (32,32) in app_icon.info['sizes']
         if not result['app_icon']:raise RuntimeError('Invalid application icon')
@@ -110,6 +112,8 @@ def self_test(report):
 
 
 def main():
+    from tools.app_identity import set_app_id
+    set_app_id()
     if '--self-test' in sys.argv:
         parser=argparse.ArgumentParser()
         parser.add_argument('--self-test',action='store_true')

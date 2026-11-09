@@ -32,6 +32,7 @@ def build(compiler):
     shutil.copyfile(root/'data/runtime/current.json',runtime/'current.json')
     shutil.copyfile(root/'packaging/windows/LEIA-ME.txt',app/'LEIA-ME.txt')
     shutil.copyfile(root/'packaging/windows/THIRD-PARTY-NOTICES.txt',app/'THIRD-PARTY-NOTICES.txt')
+    shutil.copyfile(root/'assets/app.ico',app/'app.ico')
     # Preserve full upstream license texts along with their runtime binaries.
     for package in ('Pillow','numpy','PyInstaller'):
         distribution=importlib.metadata.distribution(package)

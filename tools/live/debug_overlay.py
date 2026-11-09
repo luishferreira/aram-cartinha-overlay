@@ -318,6 +318,7 @@ class DebugApp:
 
 
 def main():
+    set_app_id()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--demo", action="store_true", help="Clearly labeled visual preview; no game reads")
     parser.add_argument("--launcher-demo", action="store_true", help="Preview pre-game with simulated selection; no game reads")
