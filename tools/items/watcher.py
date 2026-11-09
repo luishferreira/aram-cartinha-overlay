@@ -1,5 +1,6 @@
 """Import only the selected Mayhem champion, before the match starts."""
 import json
+import os
 from pathlib import Path
 import time
 
@@ -15,7 +16,7 @@ class ItemSetWatcher:
         self.status_signature = None
 
     def status(self, state, **fields):
-        value = {"state":state, **fields}
+        value = {"state":state,"owner_pid":os.getpid(), **fields}
         signature = json.dumps(value, sort_keys=True)
         if signature != self.status_signature:
             folder = local_root(self.root)/'item-sets'

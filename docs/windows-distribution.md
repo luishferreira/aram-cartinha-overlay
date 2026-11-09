@@ -1,6 +1,6 @@
 # Executável e instalador Windows
 
-A versão `0.1.0-alpha.2` empacota o overlay existente com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado também está incluído. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente.
+A versão local `0.1.0-alpha.9` empacota launcher e overlay com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado e os retratos para a seleção visual e a consulta inicial também estão incluídos. A interface usa uma faixa compacta de status e busca incremental. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente. A [documentação do launcher](launcher.md) descreve a seleção e o gerenciamento de atualizações.
 
 ## Entregas
 
@@ -9,7 +9,7 @@ A versão `0.1.0-alpha.2` empacota o overlay existente com Python 3.12, Tkinter,
 
 Ambos usam `%LOCALAPPDATA%\AramCartinhaOverlay` para históricos, logs, capturas e backups dos arsenais. Atualizar ou desinstalar não remove essa pasta. Na execução pelo código-fonte, o layout anterior `data/local/` é preservado, sem migrar automaticamente dados do desenvolvedor para o pacote.
 
-O instalador verifica os mutexes do overlay e da prévia para impedir alteração enquanto estão abertos. O atalho de abrir após instalar é opcional e não executa em instalação silenciosa. Não há inicialização automática com o Windows nem um atualizador nesta versão; uma nova versão pode ser instalada sobre a anterior com o app fechado.
+O instalador verifica os mutexes do overlay e da prévia para impedir alteração enquanto estão abertos. O atalho de abrir após instalar é opcional e não executa em instalação silenciosa. Não há inicialização automática com o Windows. O launcher consulta releases públicas, confere o hash do download e permite instalar por ação explícita fora da seleção/partida; uma nova versão pode ser instalada sobre a anterior com o app fechado.
 
 ## Compatibilidade e limites
 
@@ -46,7 +46,7 @@ O diagnóstico testa Tk, dependências embarcadas, hashes do pacote, cartas, com
 
 Verificações realizadas nesta máquina:
 
-- 89 testes de código passaram, incluindo os novos contratos de caminhos instalados e processos de sistema;
+- alpha.9: 256 testes executados sem falhas, com dois testes de atalhos pulados por conflito com o aplicativo aberto;
 - executável portátil testado com Python fora do `PATH` e sem variáveis `PYTHON*`, com dependências carregadas do bundle;
 - diagnóstico do executável instalado, com 553 nomes normalizados, 485 caminhos e 173 campeões;
 - prévia gráfica aberta e encerrada, com dados das fontes renderizados e sem erros;

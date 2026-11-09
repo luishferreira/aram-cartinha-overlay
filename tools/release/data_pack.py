@@ -12,7 +12,7 @@ from tools.items.static_sets import ROOT, encode, load_export
 from tools.live.data_paths import active_pack, file_hash, load_pack
 from tools.live.source_cards import SourceReader, panel_rows, combo_rows
 
-VERSION = 'overlay-data-pack-1'
+VERSION = 'overlay-data-pack-3'
 TABLES = ('sources','snapshots','artifacts','entities','catalog','observations','relations')
 INDEXES = ('observations_lookup','observations_champion','catalog_entity','relations_champion')
 
@@ -142,6 +142,15 @@ def compare(root, folder, source=None):
         for entity, in original.db.execute('SELECT DISTINCT entity_id FROM catalog ORDER BY entity_id'):
             if original.label(entity)!=compact.label(entity):
                 raise ValueError('Runtime label changed: '+entity)
+        if (folder/'launcher.json').exists():
+            from tools.release.launcher_data import compile_launcher
+            bundle,_ = load_export(root,runtime=False)
+            if read(folder/'launcher.json')!=compile_launcher(root,source,bundle):
+                raise ValueError('Runtime launcher data differs from pinned research')
+        if (folder/'champion-portraits.zip').exists():
+            from tools.release.launcher_assets import verify_archive
+            if verify_archive(root,folder/'champion-portraits.zip')!=len(champions):
+                raise ValueError('Incomplete launcher portraits')
         return {'verified':True,'tables':tables,'champions':len(champions),'response_cases':len(cases),
                 'responses_sha256':output_hash.hexdigest(),'languages':['pt-BR','en-US'],
                 'scope':'all_retained_rows; all_champions; all_relation_native_members_with_empty_partial_full_context'}
@@ -192,6 +201,11 @@ def build(root=ROOT):
         # Strip the loader's transient field; the generated item set data is otherwise unchanged.
         native_bundle = {k:v for k,v in bundle.items() if k!='generation'}
         (temp/'item-sets.json').write_bytes(encode(native_bundle))
+        from tools.release.launcher_data import compile_launcher
+        launcher = compile_launcher(root,source,bundle)
+        (temp/'launcher.json').write_bytes(encode(launcher))
+        from tools.release.launcher_assets import archive
+        archive(root,temp/'champion-portraits.zip')
         files = {p.name:file_hash(p) for p in sorted(temp.iterdir())}
         identity = {'version':VERSION,'data_run':run,'source_sqlite_sha256':original_hash,
                     'source_manifest_sha256':file_hash(source_folder/'manifest.json'),

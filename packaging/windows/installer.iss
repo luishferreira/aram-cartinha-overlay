@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.1.0-alpha.3"
+  #define AppVersion "0.1.0-alpha.9"
 #endif
 #ifndef AppSource
   #error AppSource is required
@@ -28,6 +28,7 @@ OutputBaseFilename=AramCartinhaOverlay-{#AppVersion}-Setup-x64
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile=..\..\assets\app.ico
 UninstallDisplayIcon={app}\AramCartinhaOverlay.exe
 AppMutex=Local\MayhemDebugOverlay,Local\MayhemDebugOverlayPreview
 CloseApplications=no
@@ -45,11 +46,12 @@ Name: "desktopicon"; Description: "Criar atalho na área de trabalho"; Flags: un
 Source: "{#AppSource}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Aram Cartinha Overlay"; Filename: "{app}\AramCartinhaOverlay.exe"
+Name: "{group}\Aram Cartinha Overlay"; Filename: "{app}\AramCartinhaOverlay.exe"; AppUserModelID: "AramCartinha.Overlay"
 Name: "{group}\Prévia do overlay"; Filename: "{app}\AramCartinhaOverlay.exe"; Parameters: "--demo"
+Name: "{group}\Prévia do pré-jogo"; Filename: "{app}\AramCartinhaOverlay.exe"; Parameters: "--launcher-demo"
 Name: "{group}\Fechar overlay"; Filename: "{app}\AramCartinhaOverlay.exe"; Parameters: "--stop"
 Name: "{group}\Desinstalar"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\Aram Cartinha Overlay"; Filename: "{app}\AramCartinhaOverlay.exe"; Tasks: desktopicon
+Name: "{autodesktop}\Aram Cartinha Overlay"; Filename: "{app}\AramCartinhaOverlay.exe"; Tasks: desktopicon; AppUserModelID: "AramCartinha.Overlay"
 
 [Run]
 Filename: "{app}\AramCartinhaOverlay.exe"; Description: "Abrir Aram Cartinha Overlay"; Flags: nowait postinstall skipifsilent unchecked

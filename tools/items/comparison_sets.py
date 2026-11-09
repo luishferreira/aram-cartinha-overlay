@@ -11,32 +11,53 @@ from tools.live.source_cards import metric
 
 SOURCES = {'aramkit':'ARAMKit', 'opgg':'OP.GG', 'arammayhem':'Mayhem.com', 'lemonnation':'Lemon'}
 MAX_CORES = 3
+# Only potions, not other consumables or components. Original bundles stay in evidence.
+STARTING_POTIONS = frozenset({'2003', '2004', '2031', '2033'})
 
 
 def coalesce_options(entries):
-    """Collapse identical starts/boots while retaining each source's original scope/order."""
-    result, seen = [], {}
+    """Compact native rows without pooling statistics or changing purchase order."""
+    result, seen, boots_index = [], {}, None
     for entry in entries:
         if entry is None:
             continue
-        block, origin = entry
+        block, origin = copy.deepcopy(entry)
         group = origin.get('option_group')
-        if group not in ('starting','boots'):
-            result.append(entry)
+        if group == 'boots':
+            if boots_index is None:
+                boots_index = len(result)
+                result.append((block, origin))
+            else:
+                # Prefer the first source (ARAMKit's path when available), not a union of rankings.
+                result[boots_index][1].setdefault('undisplayed_alternatives', []).append({
+                    'block':block, 'evidence':origin, 'reason':'one_boot_source_per_path'})
             continue
+        if group not in ('starting','core'):
+            result.append((block, origin))
+            continue
+        if group == 'starting':
+            omitted = [i for i in block['items'] if i['id'] in STARTING_POTIONS]
+            if omitted:
+                origin['display_omitted_potions'] = omitted
+            block['items'] = [i for i in block['items'] if i['id'] not in STARTING_POTIONS]
+            if not block['items']:
+                continue
         ids = tuple((i['id'],i['count']) for i in block['items'])
-        # Starter component order has no purchase-order meaning; boot order carries ranking.
+        # Starter component order has no purchase-order meaning; core order does.
         key = group, tuple(sorted(ids)) if group=='starting' else ids
         if key not in seen:
             seen[key] = len(result)
-            result.append(copy.deepcopy(entry))
+            result.append((block, origin))
             continue
         index = seen[key]
         existing, evidence = result[index]
         origins = evidence.get('origins',[evidence]) + [copy.deepcopy(origin)]
         scopes = {e['scope'] for e in origins}
-        label = 'Início' if group=='starting' else 'Botas'
-        if len(scopes)==1:
+        label = 'Início' if group=='starting' else 'Núcleo'
+        if group == 'core':
+            sources = ' + '.join(dict.fromkeys(SOURCES[e['source']] for e in origins))
+            title = f'{label} · {sources}'
+        elif len(scopes)==1:
             sources = ' + '.join(dict.fromkeys(SOURCES[e['source']] for e in origins))
             scope_label = {'path':'caminho','champion_general':'geral','editorial':'editorial'}[origins[0]['scope']]
             title = f'{sources} · {label} · {scope_label}'
@@ -170,6 +191,7 @@ class Comparison:
                 seen.add(sequence)
                 published = {k:metric(profile,k) for k in ['pick_rate','win_rate']}
                 cores['aramkit'].append([block('ARAMKit · '+stats(published), items(sequence),'aramkit','path',
+                    option_group='core',
                     profile_id=profile['id'],metrics=profile['metrics'],route=route,
                     artifact=profile['artifact'],patch=profile['patch'],
                     metric_subject='unordered_core_profile; displayed_order_is_observed_route')])
@@ -219,7 +241,7 @@ class Comparison:
                 else:
                     option = row['source_record']['option']
                     cores[source].append([block(f'{SOURCES[source]} · geral · {stats(option)}',
-                        native(row['items']),source,'champion_general',**common)])
+                        native(row['items']),source,'champion_general',option_group='core',**common)])
             if not chosen:
                 continue
             # General source lists are displayed as alternatives, never a synthetic observed sequence.
@@ -255,13 +277,12 @@ class Comparison:
                               option_group='starting' if label=='Início' else ('boots' if label=='Botas' else None),**evidence)
                 (starts if label=='Início' else extras).append(entry)
 
-        ordered = []
+        ordered = list(starts)
         # First comparison from every source is visible before the second from any source.
         for index in range(MAX_CORES):
             for source in SOURCES:
                 if index<len(cores[source]):
                     ordered.extend(cores[source][index])
-        ordered.extend(starts)
         ordered.extend(extras)
         ordered = coalesce_options(ordered)
         if not ordered:

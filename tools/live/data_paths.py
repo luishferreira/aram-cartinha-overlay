@@ -29,6 +29,10 @@ def load_pack(directory, expected_manifest=None, verify_files=True):
         if verify_files and file_hash(directory/name)!=expected:
             raise ValueError('Runtime data file changed: '+name)
     required = {'cards.sqlite3','champions.json','augments-ptbr.json','augments-enus.json','item-sets.json'}
+    if manifest.get('version') in ('overlay-data-pack-2','overlay-data-pack-3'):
+        required.add('launcher.json')
+    if manifest.get('version')=='overlay-data-pack-3':
+        required.add('champion-portraits.zip')
     if not required<=manifest['files'].keys():
         raise ValueError('Incomplete runtime data pack')
     return manifest

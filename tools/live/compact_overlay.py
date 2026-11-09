@@ -118,9 +118,6 @@ class CompactCards:
                 name = tk.Label(frame, bg="#0c2028", fg="#e6ddbe", font=("Georgia", 16, "bold"),
                                 wraplength=275, justify="center")
                 name.pack(pady=(28, 18))
-                tk.Label(frame, text="Área da carta nativa do jogo\nEfeito e descrição permanecem visíveis",
-                         bg="#0c2028", fg=MUTED, font=("Segoe UI", 9), wraplength=260,
-                         justify="center").pack(pady=12)
                 self.native.append((window, name, handle))
 
         self.control_width = 300 if demo else 190
@@ -136,7 +133,7 @@ class CompactCards:
         self.details, frame, self.details_handle = self.window(1046, 260, interactive=True)
         top = tk.Frame(frame, bg=BG)
         top.pack(fill="x", pady=(0, 6))
-        tk.Label(top, text="Comparação das fontes · campeão atual", bg=BG, fg=TEXT,
+        tk.Label(top, text="Comparar fontes", bg=BG, fg=TEXT,
                  font=("Segoe UI", 10, "bold")).pack(side="left")
         tk.Button(top, text="Fechar ×", command=self.toggle, bg=BG, fg=MUTED, relief="flat", bd=0,
                   font=("Segoe UI", 9), cursor="hand2", takefocus=False).pack(side="right")

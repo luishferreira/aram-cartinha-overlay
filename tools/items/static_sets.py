@@ -10,7 +10,7 @@ from tools.live.source_cards import SourceReader, metric
 
 from tools.app_paths import app_root
 ROOT = app_root()
-VERSION = "static-item-sets-3"
+VERSION = "static-item-sets-4"
 NAMESPACE = uuid.UUID("2e701da9-4d06-478c-9443-a2fe6965c886")
 LABELS = {"ad":"AD", "ap":"AP", "bruiser":"Lutador", "crit":"Crítico", "hybrid":"Híbrido",
           "lethality":"Letalidade", "on_hit":"On-hit", "tank":"Tanque", "utility":"Utilidade"}

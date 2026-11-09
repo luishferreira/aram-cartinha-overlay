@@ -27,7 +27,13 @@ def self_test(report):
     result={'app':APP_NAME,'version':APP_VERSION,'frozen':bool(getattr(sys,'frozen',False)),
             'python':sys.version.split()[0],'application_dir':str(app_root()),'user_dir':str(local_root())}
     try:
+        from tools.app_identity import set_app_id,apply_icon,icon_path
+        set_app_id()
         window=tk.Tk();window.withdraw()
+        apply_icon(window)
+        with Image.open(icon_path()) as app_icon:
+            result['app_icon']=app_icon.format=='ICO' and (32,32) in app_icon.info['sizes']
+        if not result['app_icon']:raise RuntimeError('Invalid application icon')
         result['tk']=window.tk.call('info','patchlevel')
         window.destroy()
         result['Pillow']=PIL.__version__;result['numpy']=numpy.__version__
@@ -47,6 +53,28 @@ def self_test(report):
         finally:
             reader.close()
         result['recognized_names']=len(load_names(app_root()))
+        from tools.launcher.state import ChampionData
+        launcher = ChampionData(app_root())
+        result['launcher_champions']=len(launcher.champions)
+        result['launcher_spells']=bool(launcher.spells(103))
+        from tools.launcher.portraits import Portraits
+        portrait_root=tk.Tk();portrait_root.withdraw()
+        try:
+            portraits=Portraits(app_root(),portrait_root)
+            if portraits.zipped is None:raise RuntimeError('Missing champion portraits')
+            result['champion_portraits']=len(portraits.manifest['portraits'])
+            result['portrait_render']=portraits.photo(103,64).width()==64
+            required_spells={i for c in launcher.champions.values() for row in launcher.spells(c['id']) for i in row['ids']}
+            result['summoner_icons']=len(portraits.manifest.get('spells',{}))
+            if not {str(i) for i in required_spells}<=portraits.manifest.get('spells',{}).keys():
+                raise RuntimeError('Incomplete summoner spell icons')
+            result['spell_render']=all(portraits.spell_photo(i,28).width()==28 for i in required_spells)
+            portraits.close()
+        finally:portrait_root.destroy()
+        if result['champion_portraits']!=173 or not result['portrait_render']:
+            raise RuntimeError('Incomplete champion portraits')
+        if result['launcher_champions']!=173 or not result['launcher_spells']:
+            raise RuntimeError('Incomplete launcher data')
         bundle,_=load_export(app_root())
         result['item_sets']=len(bundle['itemSets'])
         result['champions']=len({s['associatedChampions'][0] for s in bundle['itemSets']})

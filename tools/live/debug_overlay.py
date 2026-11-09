@@ -19,6 +19,7 @@ SOURCE_ROOT = Path(__file__).resolve().parents[2]
 if str(SOURCE_ROOT) not in sys.path:
     sys.path.insert(0, str(SOURCE_ROOT))
 from tools.app_paths import app_root,local_root
+from tools.app_identity import set_app_id,apply_icon
 ROOT = app_root()
 
 from tools.live.offer_reader import load_names, read_offer
@@ -72,7 +73,9 @@ class DebugApp:
         self.labels = {row["id"]: row["name"] for row in rows}
         self.names = load_names(ROOT)
         import tkinter as tk
+        set_app_id()
         self.root = tk.Tk()
+        apply_icon(self.root)
         self.root.withdraw()
         self.root.title("Mayhem Debug")
         self.root.overrideredirect(True)
@@ -106,6 +109,10 @@ class DebugApp:
         atomic_json(self.run / "window.json", {"pid": os.getpid(), "hwnd": int(self.hwnd), "demo": args.demo,
                                               "layout": "compact-v1", **self.compact.metadata()})
         self.hotkeys = OverlayHotkeys()
+        self.launcher = None
+        if not args.demo:
+            from tools.launcher.window import Launcher
+            self.launcher = Launcher(self.root,self.stop,self.close,root=ROOT)
         self.hotkey_retry_at = time.monotonic()+2
         self.hotkey_error = len(self.hotkeys.registered) != 2
         if self.hotkey_error:
@@ -205,10 +212,16 @@ class DebugApp:
             if stop_request.exists() and stop_request.stat().st_mtime >= self.started_wall:
                 self.close()
                 return
+            show_request = self.local/'show.request'
+            if self.launcher and show_request.exists() and show_request.stat().st_mtime>=self.started_wall:
+                show_request.unlink()
+                self.launcher.show()
+            if self.launcher:
+                self.launcher.overlay_active = self.enabled
             with self.lock:
                 view = self.tracker.view(now)
                 tags = [dict(t) if t else None for t in self.offer_tags]
-            show = self.enabled and (bool(game) or self.args.demo or now - self.started < 8)
+            show = self.enabled and (bool(game) or self.args.demo)
             if show:
                 if self.root.state() == "withdrawn":
                     self.root.deiconify()
@@ -307,11 +320,16 @@ class DebugApp:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--demo", action="store_true", help="Clearly labeled visual preview; no game reads")
+    parser.add_argument("--launcher-demo", action="store_true", help="Preview pre-game with simulated selection; no game reads")
     parser.add_argument("--stop", action="store_true", help="Request that existing debug windows exit")
     parser.add_argument("--seconds", type=float, default=0, help="Optional auto-exit duration")
     parser.add_argument("--x", type=int, default=15)
     parser.add_argument("--y", type=int, default=30)
     args = parser.parse_args()
+    if args.launcher_demo:
+        from tools.launcher.window import preview
+        preview()
+        return
     local = local_root(ROOT)/'debug-overlay'
     local.mkdir(parents=True, exist_ok=True)
     if args.stop:
@@ -322,6 +340,10 @@ def main():
     ctypes.set_last_error(0)
     mutex = kernel.CreateMutexW(None, False, "Local\\MayhemDebugOverlay" + ("Preview" if args.demo else ""))
     if ctypes.get_last_error() == 183:
+        if not args.demo:
+            (local/'show.request').touch()
+        kernel.CloseHandle.argtypes = [W.HANDLE]
+        kernel.CloseHandle(mutex)
         return
     try:
         DebugApp(args).run_loop()

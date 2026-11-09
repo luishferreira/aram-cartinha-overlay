@@ -1,4 +1,5 @@
 import ctypes
+import gc
 from ctypes import wintypes as W
 import os
 import time
@@ -28,6 +29,8 @@ class HotkeyDeliveryTests(unittest.TestCase):
         finally:
             shortcuts.close()
             root.destroy()
+            root = None
+            gc.collect()  # Keep Tcl finalization on the thread that created the window.
 
     def test_shortcuts_can_be_retried_after_a_conflicting_instance_closes(self):
         from tools.live.hotkeys import OverlayHotkeys

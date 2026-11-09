@@ -1,3 +1,3 @@
-APP_VERSION = '0.1.0-alpha.3'
-WINDOWS_VERSION = '0.1.0.3'
+APP_VERSION = '0.1.0-alpha.9'
+WINDOWS_VERSION = '0.1.0.9'
 APP_NAME = 'Aram Cartinha Overlay'
