@@ -17,6 +17,15 @@ def tiers(card):
     return tuple(metric(sources.get(source), "tier") or "—" for _, source in SOURCES)
 
 
+def score_text(card,coverage=False):
+    score=(card or {}).get('keitinha_score',{}) if not (card or {}).get('error') else {}
+    value=score.get('value')
+    if value is None:return '—'
+    text=f'{value:.1f}'.replace('.',',')
+    if coverage:text+=f' · {score["available_sources"]}/4 fontes'
+    return text
+
+
 def combo_summary(card):
     if not card or card.get("error"):
         return None
@@ -42,8 +51,8 @@ def combo_summary(card):
 
 
 def comparison_rows(cards):
-    """Each column retains its own source and context; no pooled score."""
-    values = [[] for _ in range(9)]
+    """Show consensus separately while preserving the original source indicators."""
+    values = [[] for _ in range(10)]
     for card in cards:
         valid = card and not card.get("error")
         sources = card.get("sources", {}) if valid else {}
@@ -57,12 +66,12 @@ def comparison_rows(cards):
             combo_wr = percent(metric(complete, "win_rate"))+" · "+source
         elif observed:
             combo_wr = "Incompleto"
-        column = (*tiers(card), percent(metric(kit, "win_rate")), percent(metric(gg, "win_rate")),
+        column = (score_text(card,coverage=True), *tiers(card), percent(metric(kit, "win_rate")), percent(metric(gg, "win_rate")),
                   percent(metric(kit, "pick_rate")),
                   f'#{rank["rank"]}/{rank["published_entries"]}' if rank else "—", combo_wr)
         for row, value in zip(values, column):
             row.append(value)
-    labels = ("Tier ARAMKit", "Tier Blitz", "Tier OP.GG", "Tier AM · por raridade",
+    labels = ("Keitinha Score · 0–100", "Tier ARAMKit", "Tier Blitz", "Tier OP.GG", "Tier AM · por raridade",
               "WR ARAMKit", "WR ARAMGG · global", "Popularidade ARAMKit", "Pick OP.GG · calculado",
               "WR do conjunto observado")
     return list(zip(labels, values))
@@ -80,6 +89,7 @@ class CompactCards:
         self.detail_content = None
         for slot in range(3):
             window, frame, handle = self.window(310, 78)
+            frame.configure(pady=5)
             grades = tk.Frame(frame, bg=BG)
             grades.pack(fill="x")
             letters = []
@@ -92,9 +102,12 @@ class CompactCards:
                 letter.pack(side="left", padx=(3, 0))
                 letters.append(letter)
             tk.Frame(frame, bg=EDGE, height=1).pack(fill="x", pady=(3, 3))
-            pick = tk.Label(frame, text="Pick OP —", bg=BG, fg=TEXT, font=("Segoe UI", 9))
-            pick.pack(fill="x")
-            self.headers.append((window, {"letters": letters, "pick": pick}, handle))
+            row=tk.Frame(frame,bg=BG);row.pack(fill='x')
+            pick = tk.Label(row, text="Pick OP —", bg=BG, fg=TEXT, font=("Segoe UI", 9))
+            pick.pack(side='left')
+            score=tk.Label(row,text='Keitinha Score  —',bg=BG,fg=MINT,font=('Segoe UI',9,'bold'))
+            score.pack(side='right')
+            self.headers.append((window, {"letters": letters, "pick": pick, "score":score}, handle))
 
             window, frame, handle = self.window(310, 100)
             accent = tk.Frame(frame, bg=MINT, width=2)
@@ -131,31 +144,32 @@ class CompactCards:
                       activebackground="#3b4a57", activeforeground=TEXT, relief="flat", bd=0,
                       font=("Segoe UI", 9), cursor="hand2", takefocus=False).pack(side="right", fill="y", padx=(1, 0))
         self.details, frame, self.details_handle = self.window(1046, 260, interactive=True)
+        frame.configure(pady=3)
         top = tk.Frame(frame, bg=BG)
-        top.pack(fill="x", pady=(0, 6))
-        tk.Label(top, text="Comparar fontes", bg=BG, fg=TEXT,
+        top.pack(fill="x", pady=(0, 3))
+        tk.Label(top, text="Comparar fontes", bg=BG, fg=TEXT, pady=0,
                  font=("Segoe UI", 10, "bold")).pack(side="left")
         tk.Button(top, text="Fechar ×", command=self.toggle, bg=BG, fg=MUTED, relief="flat", bd=0,
-                  font=("Segoe UI", 9), cursor="hand2", takefocus=False).pack(side="right")
+                  font=("Segoe UI", 9), cursor="hand2", takefocus=False,pady=0).pack(side="right")
         table = tk.Frame(frame, bg=BG)
         table.pack(fill="both", expand=True)
         table.columnconfigure(0, minsize=230)
         self.detail_names, self.detail_cells = [], []
-        tk.Label(table, text="Indicador", bg=BG, fg=MUTED, anchor="w",
-                 font=("Segoe UI", 9)).grid(row=0, column=0, sticky="ew", pady=(0, 7))
+        tk.Label(table, text="Indicador", bg=BG, fg=MUTED, anchor="w",pady=0,
+                 font=("Segoe UI", 9)).grid(row=0, column=0, sticky="ew", pady=(0, 3))
         for i in range(3):
             table.columnconfigure(i+1, weight=1, uniform="cards")
             name = tk.Label(table, text="—", bg=BG, fg=TEXT, font=("Segoe UI", 9, "bold"),
-                            wraplength=245, justify="center")
-            name.grid(row=0, column=i+1, sticky="ew", pady=(0, 7))
+                            wraplength=245, justify="center",pady=0)
+            name.grid(row=0, column=i+1, sticky="ew", pady=(0, 3))
             self.detail_names.append(name)
         for i, (label, _) in enumerate(comparison_rows([None]*3), 1):
             tk.Label(table, text=label, bg=BG, fg=MUTED, font=("Segoe UI", 9),
-                     anchor="w").grid(row=i, column=0, sticky="ew")
+                     anchor="w",pady=0).grid(row=i, column=0, sticky="ew")
             cells = []
             for column in range(1, 4):
-                cell = tk.Label(table, text="—", bg=BG, fg=MINT if i==9 else TEXT,
-                                font=("Segoe UI", 9), anchor="center")
+                cell = tk.Label(table, text="—", bg=BG, fg=MINT if i in (1,10) else TEXT,
+                                font=("Segoe UI", 9), anchor="center",pady=0)
                 cell.grid(row=i, column=column, sticky="ew")
                 cells.append(cell)
             self.detail_cells.append(cells)
@@ -204,12 +218,14 @@ class CompactCards:
         pick = f'Pick OP  #{rank["rank"]}' if rank else "Pick OP  —"
         if card and card.get("error"):
             pick = "Base local indisponível"
-        content = (grades, pick, summary, name)
+        score='Keitinha Score  '+score_text(card)
+        content = (grades, pick, score, summary, name)
         if self.content[slot] != content:
             for label, tier in zip(widgets["letters"], grades):
                 color = MUTED if tier=="—" else MINT if tier.startswith("S") else "#b3cbe7" if tier.startswith("A") else "#c2a4b1"
                 label.configure(text=tier, fg=color)
             widgets["pick"].configure(text=pick)
+            widgets['score'].configure(text=score)
             if summary:
                 _, cw, _ = self.combos[slot]
                 kind, value, source, color = summary

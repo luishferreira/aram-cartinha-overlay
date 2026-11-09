@@ -1,6 +1,6 @@
 # Dados das fontes nas cartas — interface compacta de 02/11/2026
 
-Os três painéis acima das cartas exibem somente os tiers por campeão (AK/BL/OP/AM) e a posição de pick calculada do OP.GG. Resumos de combos ficam abaixo das cartas. WR e comparação por fonte aparecem ao clicar em `Comparar fontes`, abaixo do histórico lateral. O reconhecimento continua independente, e uma leitura parcial não autoriza aquisição. Não é necessário executar Blitz, OP.GG ou outro overlay.
+Os três painéis acima das cartas exibem os tiers por campeão (AK/BL/OP/AM), a posição de pick calculada do OP.GG e o **Keitinha Score**. Resumos de combos ficam abaixo das cartas. WR, cobertura do score e comparação por fonte aparecem ao clicar em `Comparar fontes`, abaixo do histórico lateral. O reconhecimento continua independente, e uma leitura parcial não autoriza aquisição. Não é necessário executar Blitz, OP.GG ou outro overlay.
 
 ## Conteúdo
 
@@ -20,7 +20,7 @@ Notas editoriais arammayhem que também listam cartas adquiridas são priorizada
 
 As consultas e o cache rodam no worker existente, fora do OCR e da interface, com atualização ao mudar as cartas adquiridas. O compacto prioriza um conjunto observado contextual ou uma nota editorial, sem inventar um resumo mecânico. A comparação mostra os tiers, WR individual por fonte, popularidade ARAMKit, posição OP.GG e WR do conjunto completo. Um conjunto incompleto não recebe WR de previsão. Todos os conjuntos e notas permanecem em `combo_evidence` no JSON local, com amostras, membros, fonte e proveniência. Quando necessário, o texto termina em reticências para respeitar o espaço disponível acima da carta; o conteúdo completo permanece no JSON. A descrição mecânica principal continua visível na carta nativa do jogo. Nenhuma relação observada é tratada como efeito causal ou previsão de vitória, e ausência de combo não significa incompatibilidade.
 
-Não há média entre fontes, tier próprio, escolha automática ou estimativa condicionada ao caminho de itens. As informações são gerais do campeão. Dados por etapa, pares estatísticos e perfis de build permanecem na base para evoluções futuras.
+Desde 09/11/2026, o [Keitinha Score](keitinha-score.md) acrescenta uma média explícita de quatro entradas com pesos iguais: tiers ARAMKit/Blitz/Mayhem e popularidade normalizada OP.GG. O tier OP.GG é preservado para consulta e excluído dessa média. Não há tier próprio, escolha automática ou estimativa condicionada ao caminho de itens. As informações são gerais do campeão. Dados por etapa e perfis de build permanecem na base para evoluções futuras.
 
 ## Base e execução
 

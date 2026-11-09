@@ -51,6 +51,12 @@ def self_test(report):
         reader=SourceReader(app_root(),runtime_directory=folder)
         try:
             result['card_read']=reader.read(18,3078)['champion_id']==18
+            from tools.recommendation.keitinha_score import MODEL_VERSION
+            score=reader.read(18,3078)['keitinha_score']
+            result['keitinha_score_version']=score['model_version']
+            result['keitinha_score']=score['value']
+            if score['model_version']!=MODEL_VERSION or score['value'] is None or not 0<=score['value']<=100:
+                raise RuntimeError('Keitinha Score is unavailable')
             result['combo_read']=bool(reader.read(17,3086,[1030,1098])['combo_evidence']['observed'])
         finally:
             reader.close()

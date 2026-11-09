@@ -1,6 +1,6 @@
 import unittest
 
-from tools.live.compact_overlay import tiers, combo_summary, comparison_rows
+from tools.live.compact_overlay import tiers, combo_summary, comparison_rows,score_text
 from tools.live.source_cards import SourceReader
 
 
@@ -30,10 +30,19 @@ class CompactPresentationTests(unittest.TestCase):
         self.assertIn("Recursão", summary[1])
         rows = comparison_rows([card, None, self.reader.read(None, 1058)])
         self.assertEqual(rows[-1][1], ["Incompleto", "—", "—"])
-        self.assertEqual(len(rows), 9)
+        self.assertEqual(len(rows), 10)
         self.assertNotIn("índice", str(rows))
         self.assertNotIn("jogos", str(rows))
         self.assertNotIn("CN", str(rows))
+
+    def test_score_is_a_separate_number_with_coverage_not_a_percentage(self):
+        card=self.reader.read(18,3078)
+        value=card['keitinha_score']['value']
+        self.assertEqual(score_text(card),f'{value:.1f}'.replace('.',','))
+        self.assertNotIn('%',score_text(card))
+        self.assertIn('/4 fontes',comparison_rows([card,None,None])[0][1][0])
+        self.assertEqual(score_text(self.reader.read(None,3078)),'—')
+        self.assertEqual(score_text({'error':'unavailable'}),'—')
 
     def test_no_contextual_data_does_not_create_a_recommendation(self):
         self.assertIsNone(combo_summary(None))

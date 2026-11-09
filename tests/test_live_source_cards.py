@@ -54,6 +54,17 @@ class LiveSourceCardTests(unittest.TestCase):
         self.assertEqual(percent(0),"0,00%")
         self.assertEqual(count(0),"0")
 
+    def test_runtime_score_preserves_the_base_and_is_not_adjusted_by_selected_cards(self):
+        before=self.reader.read(18,3078)
+        after=self.reader.read(18,3078,[1077])
+        self.assertEqual(before['keitinha_score'],after['keitinha_score'])
+        self.assertEqual(before['sources'],after['sources'])
+        self.assertEqual(before['keitinha_score']['model_version'],'1.0.0')
+        self.assertTrue(0<=before['keitinha_score']['value']<=100)
+        self.assertEqual(before['keitinha_score']['expected_sources'],4)
+        self.assertIsNone(self.reader.read(None,3078)['keitinha_score']['value'])
+        self.assertIsNone(self.reader.read(18,999999)['keitinha_score']['value'])
+
     def test_editorial_keeps_original_text_and_hypothesis_status(self):
         card=self.reader.read(18,1134,[1077])
         self.assertIn("Draw Your Sword",card["editorial"]["text"])

@@ -1,12 +1,12 @@
 # LoL ARAM Mayhem — base local de dados
 
-[Baixar a versão Windows mais recente](https://github.com/luishferreira/aram-cartinha-overlay/releases/tag/v0.1.0-alpha.10) — use o **Setup x64** para instalar pelo Iniciar ou o **ZIP portátil** para extrair e executar. Os dados e as dependências estão incluídos.
+[Baixar a versão Windows mais recente](https://github.com/luishferreira/aram-cartinha-overlay/releases/tag/v0.1.0-alpha.11) — use o **Setup x64** para instalar pelo Iniciar ou o **ZIP portátil** para extrair e executar. Os dados e as dependências estão incluídos.
 
 Projeto pessoal com base local de dados e primeiro overlay de debug para validar a captura de estado do jogo. Sem IA na primeira versão e sem Overwolf. O debug consulta o campeão pela API local, lê ofertas por captura/OCR e acompanha escolhas inferidas, antes de integrar o motor. League of Graphs e METAsrc ficam fora das cartas por enquanto; os arquivos de pesquisa permanecem preservados.
 
 O fluxo reúne cinco fontes ativas (Blitz, OP.GG, ARAMKit, arammayhem.com e ARAMGG), preserva evidências e publica uma base SQLite local com suporte a PT-BR e inglês, diferenças por patch e fila de revisão.
 
-Overlay: abrir `Iniciar Debug.cmd`; ocultar com `Ctrl+F8`; fechar com `Ctrl+F9` ou `Parar Debug.cmd`. Mostra campeão, histórico de escolhas com evidência e os [dados das cinco fontes sobre cada carta](docs/data/live-source-panels.md), usando a base local. Mantém tiers, desempenho e popularidade separados, sem vencedor automático. [Uso e limitações](docs/debug-overlay.md).
+Overlay: abrir `Iniciar Debug.cmd`; ocultar com `Ctrl+F8`; fechar com `Ctrl+F9` ou `Parar Debug.cmd`. Mostra campeão, histórico de escolhas com evidência e os [dados das cinco fontes sobre cada carta](docs/data/live-source-panels.md), usando a base local. Preserva tiers, desempenho e popularidade das fontes e acrescenta o Keitinha Score, sem escolha automática de carta. [Uso e limitações](docs/debug-overlay.md).
 
 Arsenais: o overlay real também importa os caminhos estáticos do campeão selecionado no ARAM Mayhem, antes da partida, preservando conjuntos pessoais e de outros apps. Cobertura local: 485 caminhos em 173 campeões, com comparação de fontes dentro de cada caminho; importa somente os caminhos do campeão atual. A prévia não modifica o cliente. [Como funciona, comandos e backups](docs/data/static-item-sets.md).
 

@@ -1,5 +1,9 @@
 # Decisões de arquitetura
 
+## Keitinha Score — 09/11/2026
+
+O usuário autorizou um indicador próprio junto das evidências originais: pesos iguais para tiers ARAMKit, Blitz e Mayhem, mais popularidade OP.GG normalizada em substituição ao tier OP.GG. Ausências redistribuem os pesos. O cálculo é local no worker, com cache, versão explícita e composição nos registros; não altera os dados das fontes nem a aquisição de cartas. A versão inicial não incorpora caminho de itens, cartas adquiridas ou bônus de combos. Fórmula, convenções e limites em [Keitinha Score](data/keitinha-score.md). Esta decisão acrescenta uma síntese identificada; as dimensões originais continuam disponíveis separadamente.
+
 ## Overlay de debug de 31/10/2026
 
 Implementada uma janela independente em Python/Tkinter para exibir campeão, ofertas e histórico de escolhas inferidas, reaproveitando o coletor local. É uma escolha temporária de implementação para testar aquisição; a tecnologia do produto final continua em aberto. Sem motores de recomendação e sem Overwolf. O painel não ativa o jogo nem recebe seus cliques; acompanha o LoL em primeiro plano e possui atalhos de ocultação/saída. A lista selecionada usa clique passivo e fechamento do painel como inferência explícita, sem confirmação independente por HUD. Instruções, persistência e limites estão em `docs/debug-overlay.md`.

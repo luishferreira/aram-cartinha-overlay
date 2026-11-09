@@ -1,4 +1,4 @@
-"""Read-only source evidence for the live panels; no synthesized tier or winner."""
+"""Read-only source evidence and an auditable runtime consensus; no automatic winner."""
 import copy
 import json
 from pathlib import Path
@@ -9,10 +9,11 @@ import threading
 import time
 
 from tools.recommendation.card_evidence import plain, popularity_ranks
+from tools.recommendation.keitinha_score import calculate,popularity_percentiles,MODEL_VERSION as SCORE_VERSION
 
 from tools.app_paths import app_root
 ROOT = app_root()
-MODULE_VERSION="live-source-cards-0.2.0"
+MODULE_VERSION="live-source-cards-0.3.0"
 
 
 def metric(row, key):
@@ -59,6 +60,7 @@ class SourceReader:
         self.db.row_factory=sqlite3.Row
         self.db.execute("PRAGMA query_only=ON")
         self.rankings={}
+        self.popularity_scores={}
         self.cards={}
         self.editorials={}
         self.combinations={}
@@ -112,6 +114,7 @@ class SourceReader:
             return choices[0] if choices else None
         if champion is not None and champion not in self.rankings:
             self.rankings[champion]=popularity_ranks(self.db,champion)
+            self.popularity_scores[champion]=popularity_percentiles(self.rankings[champion])
         sources={"aramkit":pick("aramkit"),"aramgg":pick("aramgg","uploaded_performance"),
                  "aramgg_popularity":pick("aramgg","recommendation_and_popularity"),
                  "blitz":pick("blitz"),"opgg":pick("opgg"),
@@ -123,6 +126,7 @@ class SourceReader:
                 "opgg_popularity":self.rankings.get(champion,{}).get(candidate),
                 "scope":"champion_overall_not_build","combined_tier":None,"reference_rows":rows,
                 "base_created_at":self.manifest.get("created_at")}
+        result['keitinha_score']=calculate(sources,self.popularity_scores.get(champion,{}).get(candidate))
         self.cards[key]=result
         return result
 
@@ -356,6 +360,7 @@ class SourceCards:
             pack=active_pack(self.root,verify_files=False)
             reader=SourceReader(self.root,runtime_directory=pack[0] if pack else None)
             self.log("source_cards_ready",data_run=reader.run,module_version=MODULE_VERSION,
+                     score_version=SCORE_VERSION,
                      runtime_generation=reader.runtime_generation)
             while not self.stop.is_set():
                 try:

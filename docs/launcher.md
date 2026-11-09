@@ -1,6 +1,6 @@
 # Launcher de pré-jogo — 08/11/2026
 
-Implementado no mesmo processo do overlay; a versão publicada atual é `0.1.0-alpha.10`. Abrir pelo atalho do Iniciar mostra uma janela normal, com conexão com o LoL e importação de arsenais. Fechar pelo X minimiza; `Sair do app` ou Ctrl+F9 encerram tudo. Abrir novamente o atalho solicita que a instância existente reapareça, sem duplicar coletores/importadores.
+Implementado no mesmo processo do overlay; a versão publicada atual é `0.1.0-alpha.11`. Abrir pelo atalho do Iniciar mostra uma janela normal, com conexão com o LoL e importação de arsenais. Fechar pelo X minimiza; `Sair do app` ou Ctrl+F9 encerram tudo. Abrir novamente o atalho solicita que a instância existente reapareça, sem duplicar coletores/importadores.
 
 A alpha.7 substitui os três blocos explicativos por uma linha de status: conexão, importação durante a seleção e aviso de overlay oculto somente quando aplicável. Remove rodapés de instrução, legendas de clique e o botão duplicado de minimizar. A busca filtra enquanto se digita, ignorando acentos e pontuação, e esconde os detalhes antigos quando não há resultados. O próprio campeão recebe o selo “Você”. Feitiços usam colunas de escolha/vitória; as fontes continuam separadas com seus patches. A versão instalada aparece na aba Atualizações, que mantém erros e ações de recuperação, sem explicações técnicas permanentes sobre downloads.
 
