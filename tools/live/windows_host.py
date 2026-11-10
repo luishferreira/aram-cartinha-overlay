@@ -90,6 +90,10 @@ class WindowsHost:
             return point.x, point.y
         return None
 
+    def tab_pressed(self):
+        """Current TAB state only; does not consume or block the game's input."""
+        return bool(self.u.GetAsyncKeyState(0x09) & 0x8000)
+
     def make_overlay(self, tk_window_id, show=True, interactive=False):
         hwnd = self.u.GetAncestor(tk_window_id, 2) or tk_window_id
         getter = self.u.GetWindowLongPtrW

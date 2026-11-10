@@ -2,6 +2,8 @@
 
 Decisão do usuário: guardar esta análise e priorizar builds de itens/Arsenal. Não expandir a interface de cartas nesta etapa.
 
+Atualização de 09/11/2026: a expansão foi retomada a pedido do usuário. `Observações` agora apresenta as notas completas e todos os combos elegíveis já fornecidos pelo módulo, em três colunas com rolagem, conforme [interface atual](live-source-panels.md). O restante desta lista registra o planejamento original.
+
 ## O que já está integrado
 
 Reconhecimento de campeão/ofertas/escolhas, interface compacta com tiers por campeão e posição OP.GG, comparação de fontes, pares/trios observados e notas editoriais por campeão. O compacto prioriza um resumo por opção. Todas as relações elegíveis e notas ficam em `combo_evidence` no JSON de evidência, não apenas o resumo visível. Ausência de combinação não é evidência de incompatibilidade.

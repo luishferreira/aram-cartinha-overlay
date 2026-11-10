@@ -1,6 +1,6 @@
 import unittest
 
-from tools.live.compact_overlay import tiers, combo_summary, comparison_rows,score_text
+from tools.live.compact_overlay import tiers, combo_summary, comparison_rows,score_text,observation_sections
 from tools.live.source_cards import SourceReader
 
 
@@ -56,6 +56,24 @@ class CompactPresentationTests(unittest.TestCase):
         self.assertEqual(summary[0], "Nota para o campeão")
         self.assertEqual(summary[1], card["editorial"]["text"])
         self.assertIn("editorial (EN)", summary[2])
+
+    def test_expanded_observations_include_every_full_editorial_and_combo(self):
+        card = self.reader.read(11, 1058, [1029])
+        evidence = card['combo_evidence']
+        sections = observation_sections(card)
+        self.assertEqual(len(sections), len(evidence['editorial'])+len(evidence['observed']))
+        for note, (_, body) in zip(evidence['editorial'], sections):
+            self.assertIn(note['text'], body)
+            for name in note['other_names']:
+                self.assertIn(name, body)
+        for combo, (heading, body) in zip(evidence['observed'], sections[len(evidence['editorial']):]):
+            for name in combo['member_names']+combo['missing_names']:
+                self.assertIn(name, body)
+            if combo['missing_names']:
+                self.assertIn('incompleto', heading)
+                self.assertNotIn('WR', body)
+            else:
+                self.assertIn('WR observado', body)
 
 
 if __name__ == "__main__":

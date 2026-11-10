@@ -221,7 +221,7 @@ class DebugApp:
             with self.lock:
                 view = self.tracker.view(now)
                 tags = [dict(t) if t else None for t in self.offer_tags]
-            show = self.enabled and (bool(game) or self.args.demo)
+            show = self.enabled and (self.args.demo or (bool(game) and self.host.tab_pressed()))
             if show:
                 if self.root.state() == "withdrawn":
                     self.root.deiconify()

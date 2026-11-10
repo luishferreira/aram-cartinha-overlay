@@ -42,3 +42,40 @@ class CompactScoreLayoutTests(unittest.TestCase):
         self.assertLessEqual(widgets['pick'].winfo_reqwidth()+widgets['score'].winfo_reqwidth(),290)
         self.assertLessEqual(window.winfo_children()[0].winfo_reqheight(),76)
         self.assertLessEqual(self.app.details.winfo_children()[0].winfo_reqheight(),258)
+
+    def test_full_observations_scroll_and_refresh_without_losing_other_columns(self):
+        card = self.card(80)
+        full_text = 'Texto longo preservado. '*600+'FIM DA OBSERVAÇÃO'
+        card['combo_evidence']['editorial'] = [
+            {'text':full_text,'member_names':['Carta escolhida'],'other_names':['Alternativa']},
+            {'text':'Segunda observação completa.','member_names':[],'other_names':[]}]
+        for slot in range(3):self.app.render_slot(slot,'Carta '+str(slot),card,None)
+        self.app.toggle_notes();self.app.render_controls(True,None,0,0,180)
+        self.root.update_idletasks()
+        text = self.app.notes_texts[0]
+        self.assertIn(full_text,text.get('1.0','end'))
+        self.assertIn('Segunda observação completa.',text.get('1.0','end'))
+        self.assertEqual(text.cget('state'),'disabled')
+        text.yview_moveto(1);self.root.update_idletasks()
+        position = text.yview()
+        self.assertGreater(position[0],0)
+        self.app.cards[1] = self.card(70)
+        self.app.render_controls(True,None,0,0,180)
+        self.root.update_idletasks()
+        self.assertEqual(text.yview(),position)
+        self.assertIn('Sem observações salvas',self.app.notes_texts[1].get('1.0','end'))
+        self.assertLessEqual(self.app.notes.winfo_children()[0].winfo_reqheight(),486)
+
+    def test_observations_and_comparison_are_exclusive_and_reset_with_offer(self):
+        self.app.render_slot(0,'Carta',self.card(80),None)
+        self.app.toggle_notes()
+        self.assertTrue(self.app.notes_open)
+        self.app.toggle()
+        self.assertTrue(self.app.details_open)
+        self.assertFalse(self.app.notes_open)
+        self.app.toggle_notes()
+        self.assertFalse(self.app.details_open)
+        self.app.render_controls(False,None,0,0,180)
+        self.assertFalse(self.app.notes_open)
+        self.assertEqual(self.app.notes.state(),'withdrawn')
+        self.assertEqual(self.app.notes_button.cget('text'),'Observações')

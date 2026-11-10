@@ -77,6 +77,37 @@ def comparison_rows(cards):
     return list(zip(labels, values))
 
 
+def observation_sections(card):
+    """Full eligible evidence, with editorial membership separate from requirements."""
+    if card is None:
+        return [("", "Carregando observações…")]
+    if card.get("error"):
+        return [("", "Base local indisponível")]
+    evidence = card.get("combo_evidence", {})
+    sections = []
+    for note in evidence.get("editorial", []):
+        lines = [note["text"]]
+        if note.get("member_names"):
+            lines.append("Já escolhidas e citadas: "+" + ".join(note["member_names"]))
+        if note.get("other_names"):
+            lines.append("Outras cartas citadas: "+" + ".join(note["other_names"]))
+        sections.append(("ARAM Mayhem · nota editorial (EN)", "\n\n".join(lines)))
+    for combo in evidence.get("observed", []):
+        kind = "Par" if combo["kind"] == "observed_pair" else "Trio"
+        source = "ARAMKit" if combo["source"] == "aramkit" else "ARAMGG"
+        lines = []
+        if combo.get("member_names"):
+            lines.append("Com: "+" + ".join(combo["member_names"]))
+        missing = combo.get("missing_names", [])
+        if missing:
+            lines.append("Falta: "+" + ".join(missing))
+        else:
+            lines.append("Completo com esta opção · WR observado "+percent(metric(combo, "win_rate")))
+        sections.append((source+" · "+kind.lower()+" observado"+(" · incompleto" if missing else ""),
+                         "\n".join(lines)))
+    return sections or [("", "Sem observações salvas para esta carta neste campeão.")]
+
+
 class CompactCards:
     def __init__(self, root, host, demo=False, log=lambda *a, **k: None, on_close=None):
         import tkinter as tk
@@ -86,7 +117,9 @@ class CompactCards:
         self.names = ["—"]*3
         self.cards = [None]*3
         self.details_open = False
+        self.notes_open = False
         self.detail_content = None
+        self.notes_content = None
         for slot in range(3):
             window, frame, handle = self.window(310, 78)
             frame.configure(pady=5)
@@ -133,12 +166,16 @@ class CompactCards:
                 name.pack(pady=(28, 18))
                 self.native.append((window, name, handle))
 
-        self.control_width = 300 if demo else 190
+        self.control_width = 420 if demo else 300
         self.control, frame, self.control_handle = self.window(self.control_width, 32, interactive=True, padding=0)
         self.button = tk.Button(frame, text="Comparar fontes", command=self.toggle, bg="#1b2b38", fg=TEXT,
                                 activebackground="#294354", activeforeground=TEXT, relief="flat", bd=0,
                                 font=("Segoe UI", 9), cursor="hand2", takefocus=False)
         self.button.pack(side="left", fill="both", expand=True)
+        self.notes_button = tk.Button(frame, text="Observações", command=self.toggle_notes, bg="#1b2b38", fg=TEXT,
+                                      activebackground="#294354", activeforeground=TEXT, relief="flat", bd=0,
+                                      font=("Segoe UI", 9), cursor="hand2", takefocus=False)
+        self.notes_button.pack(side="left", fill="both", expand=True, padx=(1, 0))
         if demo and on_close:
             tk.Button(frame, text="Fechar prévia ×", command=on_close, bg="#273440", fg=TEXT,
                       activebackground="#3b4a57", activeforeground=TEXT, relief="flat", bd=0,
@@ -173,6 +210,40 @@ class CompactCards:
                 cell.grid(row=i, column=column, sticky="ew")
                 cells.append(cell)
             self.detail_cells.append(cells)
+
+        # Covers native card bodies only while expanded; rerolls and scores stay exposed.
+        self.notes, frame, self.notes_handle = self.window(1046, 488, interactive=True)
+        top = tk.Frame(frame, bg=BG)
+        top.pack(fill="x", pady=(0, 8))
+        tk.Label(top, text="Observações", bg=BG, fg=TEXT,
+                 font=("Segoe UI", 10, "bold")).pack(side="left")
+        tk.Button(top, text="Fechar ×", command=self.toggle_notes, bg=BG, fg=MUTED, relief="flat", bd=0,
+                  font=("Segoe UI", 9), cursor="hand2", takefocus=False).pack(side="right")
+        columns = tk.Frame(frame, bg=BG)
+        columns.pack(fill="both", expand=True)
+        self.notes_names, self.notes_texts = [], []
+        for slot in range(3):
+            columns.columnconfigure(slot, weight=1, uniform="notes")
+            column = tk.Frame(columns, bg=BG)
+            column.grid(row=0, column=slot, sticky="nsew", padx=(0 if slot == 0 else 9, 0))
+            name = tk.Label(column, text="—", bg=BG, fg=MINT, font=("Segoe UI", 10, "bold"),
+                            wraplength=310, justify="left", anchor="w")
+            name.pack(fill="x", pady=(0, 7))
+            body = tk.Frame(column, bg=BG)
+            body.pack(fill="both", expand=True)
+            scrollbar = tk.Scrollbar(body, orient="vertical", width=10, bd=0, highlightthickness=0)
+            scrollbar.pack(side="right", fill="y")
+            text = tk.Text(body, wrap="word", width=1, height=1, bg=BG, fg=TEXT, relief="flat",
+                           bd=0, highlightthickness=0, font=("Segoe UI", 10), padx=3, pady=3,
+                           cursor="arrow", takefocus=False, yscrollcommand=scrollbar.set,
+                           selectbackground="#294354", spacing1=3, spacing3=6)
+            text.pack(side="left", fill="both", expand=True)
+            scrollbar.configure(command=text.yview)
+            text.tag_configure("heading", foreground=GOLD, font=("Segoe UI", 9, "bold"), spacing1=12)
+            text.configure(state="disabled")
+            self.notes_names.append(name)
+            self.notes_texts.append(text)
+        columns.rowconfigure(0, weight=1)
 
     def window(self, width, height, interactive=False, padding=9):
         tk = self.tk
@@ -237,7 +308,7 @@ class CompactCards:
                 self.native[slot][1].configure(text=name)
             self.content[slot] = content
         self.show(window, x, oy+108, 310, 78)
-        if summary and not self.details_open:
+        if summary and not self.details_open and not self.notes_open:
             self.show(self.combos[slot][0], x, oy+COMBO_Y, 310, 100)
         elif self.combos[slot][0].state() != "withdrawn":
             self.combos[slot][0].withdraw()
@@ -246,17 +317,55 @@ class CompactCards:
 
     def toggle(self):
         self.details_open = not self.details_open
+        self.notes_open = False
+        self.notes_button.configure(text="Observações")
         self.button.configure(text="Recolher comparação" if self.details_open else "Comparar fontes")
         self.log("comparison_toggled", expanded=self.details_open, demo=self.demo)
+
+    def toggle_notes(self):
+        self.notes_open = not self.notes_open
+        self.details_open = False
+        self.button.configure(text="Comparar fontes")
+        self.notes_button.configure(text="Recolher notas" if self.notes_open else "Observações")
+        self.log("observations_toggled", expanded=self.notes_open, demo=self.demo)
+
+    def render_notes(self, game):
+        if not self.notes_open:
+            self.notes.withdraw()
+            return
+        sections = [observation_sections(card) if name != "—" else [("", "—")]
+                    for name, card in zip(self.names, self.cards)]
+        content = (tuple(self.names), tuple(tuple(column) for column in sections))
+        if content != self.notes_content:
+            previous = self.notes_content
+            for slot, (name, text, column) in enumerate(zip(self.notes_names, self.notes_texts, sections)):
+                if previous and (previous[0][slot], previous[1][slot]) == (content[0][slot], content[1][slot]):
+                    continue
+                name.configure(text=self.names[slot])
+                text.configure(state="normal")
+                text.delete("1.0", "end")
+                for heading, body in column:
+                    if heading:
+                        text.insert("end", heading+"\n", "heading")
+                    text.insert("end", body+"\n\n")
+                text.configure(state="disabled")
+                text.yview_moveto(0)
+            self.notes_content = content
+        ox, oy = (game["x"], game["y"]) if game else (0, 0)
+        self.show(self.notes, ox+437, oy+204, 1046, 488, interactive=True)
 
     def render_controls(self, visible, game, root_x, root_y, root_height):
         if not visible or not any(name!="—" for name in self.names):
             self.details_open = False
+            self.notes_open = False
             self.button.configure(text="Comparar fontes")
+            self.notes_button.configure(text="Observações")
             self.control.withdraw()
             self.details.withdraw()
+            self.notes.withdraw()
             return
         self.show(self.control, root_x, root_y+root_height+5, self.control_width, 32, interactive=True)
+        self.render_notes(game)
         if not self.details_open:
             self.details.withdraw()
             return
@@ -276,4 +385,5 @@ class CompactCards:
         return {"tag_hwnds": [int(w[2]) for w in self.headers],
                 "combo_hwnds": [int(w[2]) for w in self.combos],
                 "native_hwnds": [int(w[2]) for w in self.native],
-                "control_hwnd": int(self.control_handle), "details_hwnd": int(self.details_handle)}
+                "control_hwnd": int(self.control_handle), "details_hwnd": int(self.details_handle),
+                "notes_hwnd": int(self.notes_handle)}

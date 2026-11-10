@@ -2,6 +2,12 @@
 
 Os três painéis acima das cartas exibem os tiers por campeão (AK/BL/OP/AM), a posição de pick calculada do OP.GG e o **Keitinha Score**. Resumos de combos ficam abaixo das cartas. WR, cobertura do score e comparação por fonte aparecem ao clicar em `Comparar fontes`, abaixo do histórico lateral. O reconhecimento continua independente, e uma leitura parcial não autoriza aquisição. Não é necessário executar Blitz, OP.GG ou outro overlay.
 
+O painel lateral com o campeão e as cartas adquiridas aparece apenas enquanto `TAB` estiver pressionado, com o jogo em primeiro plano e o overlay habilitado. Soltar `TAB` oculta esse painel; os indicadores das cartas oferecidas e o botão de comparação mantêm sua visibilidade independente. A prévia continua exibindo o painel para revisão visual. A leitura usa somente o estado atual da tecla, sem bloquear o TAB do jogo.
+
+O botão `Observações`, ao lado de `Comparar fontes`, abre um painel com três colunas e rolagem independente. Cada coluna mostra todas as notas editoriais elegíveis e todos os pares/trios observados daquela opção, sem cortar o texto. Notas Mayhem mantêm o original inglês, a fonte e a distinção entre cartas já escolhidas e outras apenas citadas; a lista citada não vira requisito mecânico. Combos incompletos mostram as cartas que faltam, sem WR de previsão; os completos podem mostrar o WR observado. Os filtros de campeão, patch da fonte, identidades e cartas retiradas continuam aplicados antes da apresentação.
+
+Observações e comparação são modos exclusivos. O painel de observações ocupa os corpos das cartas enquanto aberto (é necessário fechá-lo para selecionar a carta), deixando os indicadores superiores e os botões nativos de reroll expostos no layout 1080p calibrado. As colunas atualizam com a oferta e as cartas adquiridas; uma atualização de outra coluna não reinicia sua rolagem. Ocultar o overlay, sair do jogo em primeiro plano ou encerrar a oferta fecha a expansão. O botão permanece disponível durante a oferta sem precisar segurar `TAB`.
+
 ## Conteúdo
 
 | Fonte | Exibição | Escopo |
