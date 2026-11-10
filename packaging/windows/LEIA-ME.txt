@@ -1,4 +1,4 @@
-Aram Cartinha Overlay — versão experimental 0.1.0-alpha.11
+Aram Cartinha Overlay — versão experimental 0.1.0-alpha.12
 
 INSTALAÇÃO
 Execute o Setup para instalar no seu usuário, ou extraia a pasta inteira do ZIP
@@ -14,6 +14,9 @@ Os retratos estão incluídos no app e funcionam sem internet.
 Fechar a janela pelo X minimiza e mantém o app ativo. Sair do app encerra tudo.
 Abrir novamente o atalho mostra a janela da instância já aberta.
 Ctrl+F8: ocultar/mostrar. Ctrl+F9: fechar.
+Segure TAB para ver o campeão e as cartas adquiridas.
+Durante a oferta, Observações abre notas e combos completos por carta.
+Feche esse painel para selecionar uma carta; os rerolls ficam livres.
 AramCartinhaOverlay.exe --demo abre a prévia sem consultar a partida.
 AramCartinhaOverlay.exe --launcher-demo simula a tela de pré-jogo.
 AramCartinhaOverlay.exe --stop fecha as janelas do overlay.

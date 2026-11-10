@@ -1,6 +1,6 @@
 # Executável e instalador Windows
 
-A versão publicada `0.1.0-alpha.11` empacota launcher e overlay com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado e os retratos para a seleção visual e a consulta inicial também estão incluídos. A interface usa uma faixa compacta de status e busca incremental. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente. A [documentação do launcher](launcher.md) descreve a seleção e o gerenciamento de atualizações.
+A versão publicada `0.1.0-alpha.12` empacota launcher e overlay com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado e os retratos para a seleção visual e a consulta inicial também estão incluídos. A interface usa uma faixa compacta de status e busca incremental. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente. A [documentação do launcher](launcher.md) descreve a seleção e o gerenciamento de atualizações.
 
 ## Entregas
 

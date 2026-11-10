@@ -1,5 +1,5 @@
 #ifndef AppVersion
-  #define AppVersion "0.1.0-alpha.11"
+  #define AppVersion "0.1.0-alpha.12"
 #endif
 #ifndef AppSource
   #error AppSource is required
