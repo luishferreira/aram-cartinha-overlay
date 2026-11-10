@@ -49,6 +49,7 @@ class VisualCollector:
         self.api_payload = None
         self.api_at = 0
         self.last_tab_diagnostic = None
+        self.last_ocr_error = None
 
     def bind(self, game):
         key = process_key(game)
@@ -78,6 +79,7 @@ class VisualCollector:
         self.last_reading = None
         self.api_payload, self.api_at = None, 0
         self.last_tab_diagnostic = None
+        self.last_ocr_error = None
 
     def sync(self):
         state = self.ledger.export()
@@ -285,6 +287,11 @@ class VisualCollector:
                 ocr_started = time.monotonic()
                 screen = capture(path, True, native_titles=not tab, input_image=path, session=self.ocr_session)
                 ocr_ms = round((time.monotonic()-ocr_started)*1000)
+                if screen.get("ocr_status") != "recognized":
+                    raise RuntimeError("Windows OCR failed: "+str(screen.get("ocr_error") or screen.get("ocr_status") or "no status"))
+                if self.last_ocr_error is not None:
+                    self.app.log("ocr_recovered")
+                    self.last_ocr_error = None
                 screen.update(status="captured", width=1920, height=1080, panel_visibility=panel)
                 reading = read_offer(screen, self.app.names) if not tab else {"status":"unobserved", "reason":"scoreboard"}
                 with self.app.lock:
@@ -317,7 +324,10 @@ class VisualCollector:
                     self.app.record_acquisition(screen, reading, "available" if payload else "unavailable", (payload or {}).get("gameData",{}).get("gameTime"))
                     self.last_reading = fingerprint
             except Exception as error:
-                self.app.log("ocr_error", error_type=type(error).__name__, detail=str(error))
+                signature = (type(error).__name__,str(error))
+                if signature != self.last_ocr_error:
+                    self.app.log("ocr_error", error_type=signature[0], detail=signature[1])
+                    self.last_ocr_error = signature
                 self.app.stop.wait(.5)
             self.app.stop.wait(.12)
 

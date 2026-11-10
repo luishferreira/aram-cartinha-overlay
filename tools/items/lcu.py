@@ -17,9 +17,14 @@ class ClientUnavailable(RuntimeError):
 
 
 class LcuError(RuntimeError):
-    def __init__(self, status):
+    def __init__(self, status, *, method=None, path=None, request_bytes=None, item_sets=None):
         self.status = status
-        super().__init__(f"LCU request failed ({status})")
+        self.method = method
+        self.path = re.sub(r'(/lol-item-sets/v1/item-sets/)\d+', r'\1{summonerId}', path) if path else None
+        self.request_bytes = request_bytes
+        self.item_sets = item_sets
+        detail = f" [{method} {self.path}; request_bytes={request_bytes}; item_sets={item_sets}]" if method else ""
+        super().__init__(f"LCU request failed ({status})"+detail)
 
 
 @dataclass(repr=False)
@@ -75,8 +80,11 @@ class Lcu:
         if not path.startswith("/") or ".." in path or "?" in path or "#" in path:
             raise ValueError("Invalid local endpoint")
         auth = base64.b64encode(("riot:"+self.connection.token).encode()).decode()
+        # The endpoint replaces the whole collection, including other apps' sets.
+        # Compact UTF-8 reduces wire size while preserving every field and set.
+        data = json.dumps(body, ensure_ascii=False, separators=(',', ':')).encode('utf-8') if body is not None else None
         request = urllib.request.Request(f"https://127.0.0.1:{self.connection.port}{path}",
-                                         data=json.dumps(body).encode() if body is not None else None,
+                                         data=data,
                                          headers={"Authorization":"Basic "+auth, "Content-Type":"application/json"},
                                          method=method)
         try:
@@ -84,7 +92,9 @@ class Lcu:
                 raw = response.read()
                 return json.loads(raw) if raw else None
         except urllib.error.HTTPError as error:
-            raise LcuError(error.code) from None
+            sets = body.get('itemSets') if isinstance(body, dict) else None
+            raise LcuError(error.code, method=method, path=path, request_bytes=len(data) if data is not None else 0,
+                           item_sets=len(sets) if isinstance(sets, list) else None) from None
         except (urllib.error.URLError, TimeoutError, OSError):
             raise ClientUnavailable("A conexão local do LoL foi encerrada.") from None
 

@@ -21,7 +21,7 @@ import sys
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from tools.live.common import normalized
-from tools.system_process import run as run_system
+from tools.system_process import run as run_system, powershell_script
 PRIVATE_KEYS = {"summonername", "riotid", "riotidgamename", "riotidtagline", "puuid", "summonerid"}
 
 
@@ -106,9 +106,7 @@ def capture(destination, ocr, *, native_titles=False, input_image=None, session=
         return {"status": "unsupported_platform"}
     if session is not None and input_image is not None and ocr:
         return session.recognize(input_image,native_titles=native_titles)
-    executable = Path(os.environ.get("SystemRoot", "C:/Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
-    command = [str(executable), "-NoProfile", "-File", str(Path(__file__).with_name("capture_game.ps1")),
-               "-OutputPath", str(destination)]
+    command = powershell_script(Path(__file__).with_name("capture_game.ps1"), "-OutputPath", destination)
     if ocr:
         command.append("-Ocr")
     if native_titles:

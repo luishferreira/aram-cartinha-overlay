@@ -1,11 +1,11 @@
 """One private PowerShell OCR worker; no process launch per captured frame."""
 import json
-import os
+from collections import deque
 from pathlib import Path
 import queue
 import subprocess
 import threading
-from tools.system_process import popen
+from tools.system_process import popen, powershell_script
 
 
 class OcrSession:
@@ -13,15 +13,25 @@ class OcrSession:
         self.process = None
         self.responses = None
         self.counter = 0
+        self.stderr_tail = deque(maxlen=12)
+        self.stderr_reader = None
 
     def _start(self):
-        executable = Path(os.environ.get("SystemRoot","C:/Windows")) / "System32/WindowsPowerShell/v1.0/powershell.exe"
-        self.process = popen([str(executable),"-NoProfile","-File",str(Path(__file__).with_name("ocr_server.ps1"))],
-                                        stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+        self.process = popen(powershell_script(Path(__file__).with_name("ocr_server.ps1")),
+                                        stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
                                         text=True,encoding="utf-8",errors="replace",bufsize=1,
                                         creationflags=subprocess.CREATE_NO_WINDOW)
         responses = self.responses = queue.Queue()
+        stderr_tail = self.stderr_tail = deque(maxlen=12)
         process = self.process
+        def read_stderr():
+            try:
+                for line in process.stderr:
+                    stderr_tail.append(line.strip()[:256])
+            except (ValueError,OSError):
+                pass
+        self.stderr_reader = threading.Thread(target=read_stderr,daemon=True,name="mayhem-ocr-errors")
+        self.stderr_reader.start()
         def reader():
             try:
                 for line in process.stdout:
@@ -42,7 +52,15 @@ class OcrSession:
             self.process.stdin.flush()
             line = self.responses.get(timeout=8)
             if line is None:
-                raise RuntimeError("OCR worker exited")
+                process = self.process
+                try:
+                    code = process.wait(timeout=.2)
+                except subprocess.TimeoutExpired:
+                    code = process.poll()
+                if self.stderr_reader:
+                    self.stderr_reader.join(timeout=.2)
+                detail = " ".join(self.stderr_tail)[-1600:]
+                raise RuntimeError(f"OCR worker exited (code={code})"+(": "+detail if detail else ""))
             response = json.loads(line.lstrip("\ufeff"))
             if response.get("id") != self.counter:
                 raise RuntimeError("OCR response identity mismatch")
@@ -61,6 +79,9 @@ class OcrSession:
             except subprocess.TimeoutExpired:
                 process.kill()
                 process.wait(timeout=.5)
-            for stream in (process.stdin,process.stdout):
+            for reader in (self.stderr_reader,):
+                if reader:
+                    reader.join(timeout=.2)
+            for stream in (process.stdin,process.stdout,process.stderr):
                 if stream:
                     stream.close()

@@ -2,11 +2,19 @@
 import ctypes
 import ntpath
 import os
+from pathlib import Path
 import subprocess
 import sys
 import threading
 
 _lock = threading.RLock()
+
+
+def powershell_script(script, *arguments):
+    """Run our shipped script with a process-local policy; do not change Windows settings."""
+    executable = Path(os.environ.get('SystemRoot', 'C:/Windows'))/'System32/WindowsPowerShell/v1.0/powershell.exe'
+    return [str(executable), '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass',
+            '-File', str(script), *map(str, arguments)]
 
 
 def child_environment(environment,bundle):

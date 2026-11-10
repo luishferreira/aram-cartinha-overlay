@@ -4,10 +4,11 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
 
-from tools.items.static_sets import ROOT, load_export, items, build_set, validate_set
+from tools.items.static_sets import ROOT, load_export, items, build_set, validate_set, order_sets_by_popularity
 from tools.items.import_sets import Importer, merge_collection
-from tools.items.lcu import champion_context, Connection
+from tools.items.lcu import champion_context, Connection, LcuError
 from tools.items.watcher import ItemSetWatcher
 
 
@@ -134,6 +135,8 @@ class StaticItemSetTests(unittest.TestCase):
         self.assertEqual(self.client.puts,1)
         self.assertEqual(self.client.value["itemSets"][0],original)
         self.assertEqual(len(self.client.value["itemSets"]),6)
+        self.assertTrue(all(s['title'].startswith('Keitinha · ') for s in self.client.value['itemSets']
+                            if s['uid'] in self.importer.owned))
         self.assertTrue(Path(result["backup"]).exists())
         self.assertFalse(self.importer.sync(self.client,11)["changed"])
         self.assertEqual(self.client.puts,1)
@@ -175,6 +178,38 @@ class StaticItemSetTests(unittest.TestCase):
             self.importer.sync(self.client,11)
         self.assertEqual(self.client.puts,0)
 
+    def test_order_uses_path_popularity_with_zero_before_unknown_and_ignores_other_selection(self):
+        values = copy.deepcopy([s for s in self.bundle['itemSets'] if s['associatedChampions']==[11]][:4])
+        evidence = {s['uid']:{'path_id':'source:path:'+key}
+                    for s,key in zip(values,('rare','common','zero','unknown'))}
+        rows = []
+        for key,pop,selection,wr in [('rare',.1,'filtered',.9),('common',.6,'filtered',.4),
+                                     ('zero',0,'filtered',.5),('unknown',1,'unfiltered',1)]:
+            rows.append({'champion_id':'champion:game:11',
+                'context_json':json.dumps({'archetype':key,'selection':selection}),
+                'metrics_json':json.dumps({'pick_rate':{'value':pop},'win_rate':{'value':wr}}),
+                'patch':'test','artifact':'source','selector':key})
+        ordered = order_sets_by_popularity(values,evidence,SimpleNamespace(execute=lambda sql:rows))
+        self.assertEqual([evidence[s['uid']]['path_id'].rsplit(':',1)[1] for s in ordered],
+                         ['common','rare','zero','unknown'])
+        self.assertEqual([s['sortrank'] for s in ordered],[0,1,2,3])
+        self.assertEqual(evidence[ordered[2]['uid']]['ordering']['reference']['pick_rate'],0)
+        self.assertIsNone(evidence[ordered[3]['uid']]['ordering']['reference'])
+
+    def test_changed_sort_order_is_reimported_without_duplicate_sets_or_foreign_edits(self):
+        self.client.value['itemSets'][0]['sortrank']=12
+        self.importer.sync(self.client,11)
+        expected = {s['uid']:s.get('sortrank',0) for s in self.client.value['itemSets']
+                    if s['uid'] in self.importer.owned}
+        for value in self.client.value['itemSets']:
+            if value['uid'] in self.importer.owned:value['sortrank']=99
+        self.assertTrue(self.importer.sync(self.client,11)['changed'])
+        actual = {s['uid']:s.get('sortrank',0) for s in self.client.value['itemSets']
+                  if s['uid'] in self.importer.owned}
+        self.assertEqual(actual,expected)
+        self.assertEqual(self.client.value['itemSets'][0]['sortrank'],12)
+        self.assertEqual(len(self.client.value['itemSets']),1+len(expected))
+
     def test_champion_detection_uses_own_cell_and_mayhem_queue(self):
         class Client:
             queue=2400
@@ -212,6 +247,29 @@ class StaticItemSetTests(unittest.TestCase):
 
     def test_connection_repr_never_contains_session_token(self):
         self.assertNotIn("private-token",repr(Connection(1234,"private-token")))
+
+    def test_watcher_records_size_failure_without_reporting_import_success(self):
+        class Stop:
+            tick=0
+            def is_set(self):return self.tick>=3
+            def wait(self,delay):self.tick+=1
+        stop=Stop();events=[]
+        failure=LcuError(413,method='PUT',path='/lol-item-sets/v1/item-sets/42/sets',
+                         request_bytes=900000,item_sets=300)
+        watcher=ItemSetWatcher(stop,self.root,log=lambda kind,**fields:events.append(fields))
+        with patch('tools.items.watcher.load_export',return_value=(self.bundle,self.manifest)), \
+             patch('tools.items.watcher.Lcu',return_value=self.client), \
+             patch('tools.items.watcher.champion_context',return_value={'champion_id':11,'map_id':12}), \
+             patch('tools.items.watcher.time.monotonic',side_effect=lambda:stop.tick), \
+             patch('tools.items.watcher.Importer') as importer:
+            importer.return_value.sync.side_effect=failure
+            watcher.run()
+        status=json.loads((self.root/'data/local/item-sets/status.json').read_text())
+        self.assertEqual(status['state'],'import_error')
+        self.assertEqual(status['http_status'],413)
+        self.assertEqual(status['request_bytes'],900000)
+        self.assertEqual(status['item_sets'],300)
+        self.assertNotIn('imported',[event['state'] for event in events])
 
     def test_watcher_reloads_new_generation_and_reimports_same_champion(self):
         pointer = self.root/'data/item-sets/current.json'

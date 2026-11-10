@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 import uuid
 
-from tools.items.static_sets import encode, digest, items, by_sample, NAMESPACE, LABELS
+from tools.items.static_sets import encode, digest, items, by_sample, NAMESPACE, LABELS, TITLE_PREFIX
 from tools.live.source_cards import metric
 
 SOURCES = {'aramkit':'ARAMKit', 'opgg':'OP.GG', 'arammayhem':'Mayhem.com', 'lemonnation':'Lemon'}
@@ -154,7 +154,7 @@ class Comparison:
         key = path['native_key']
         value = copy.deepcopy(baseline) if baseline else {
             'uid':str(uuid.uuid5(NAMESPACE, identity(champion['id'],key))),
-            'title':f'Mayhem · {champion["name"]} · {LABELS[key]}',
+            'title':f'{TITLE_PREFIX}{champion["name"]} · {LABELS[key]}',
             'type':'custom','map':'any','mode':'any','priority':False,'sortrank':0,
             'startedFrom':'blank','associatedChampions':[champion['id']],
             'associatedMaps':[12],'preferredItemSlots':[],'blocks':[]}

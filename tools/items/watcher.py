@@ -68,5 +68,8 @@ class ItemSetWatcher:
                 self.status("client_unavailable")
             except (LcuError, ValueError, RuntimeError, OSError, KeyError, TypeError) as error:
                 delay = 8
-                self.status("import_error", error_type=type(error).__name__, detail=str(error))
+                diagnostic = {"http_status":error.status,"endpoint":error.path,
+                              "method":error.method,"request_bytes":error.request_bytes,
+                              "item_sets":error.item_sets} if isinstance(error,LcuError) else {}
+                self.status("import_error", error_type=type(error).__name__, detail=str(error), **diagnostic)
             self.stop.wait(delay)

@@ -6,12 +6,13 @@ import json
 from pathlib import Path
 import time
 
-from tools.items.static_sets import ROOT, encode, digest, validate_set
+from tools.items.static_sets import ROOT, encode, digest, validate_set, TITLE_PREFIX, LEGACY_TITLE_PREFIXES
 from tools.app_paths import local_root
 
 
 def projection(value):
     return {"uid":value.get("uid"), "title":value.get("title"),
+            "sortrank":value.get("sortrank",0),
             "associatedChampions":sorted(value.get("associatedChampions", [])),
             "associatedMaps":sorted(value.get("associatedMaps", [])),
             "blocks":[{"type":b["type"], "items":[{"id":str(i["id"]), "count":i.get("count",1)}
@@ -58,8 +59,14 @@ class Importer:
         desired = [copy.deepcopy(s) for s in self.bundle["itemSets"] if s["associatedChampions"]==[champion_id]]
         if not desired:
             raise ValueError("No predefined paths for this champion")
+        desired.sort(key=lambda value:(value.get('sortrank',0), value['title'].casefold(), value['uid']))
         for value in desired:
             value["associatedMaps"] = [map_id]
+            # Keep packaged snapshots usable and migrate our existing UIDs in place.
+            for prefix in LEGACY_TITLE_PREFIXES:
+                if value["title"].startswith(prefix):
+                    value["title"] = TITLE_PREFIX+value["title"][len(prefix):]
+                    break
         # Current game catalog validates IDs, including Mayhem-specific variants.
         catalog = client.request("GET", "/lol-game-data/assets/v1/items.json")
         if not isinstance(catalog, list):

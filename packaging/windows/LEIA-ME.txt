@@ -1,4 +1,4 @@
-Aram Cartinha Overlay — versão experimental 0.1.0-alpha.12
+Aram Cartinha Overlay — versão experimental 0.1.0-alpha.13
 
 INSTALAÇÃO
 Execute o Setup para instalar no seu usuário, ou extraia a pasta inteira do ZIP
@@ -17,6 +17,8 @@ Ctrl+F8: ocultar/mostrar. Ctrl+F9: fechar.
 Segure TAB para ver o campeão e as cartas adquiridas.
 Durante a oferta, Observações abre notas e combos completos por carta.
 Feche esse painel para selecionar uma carta; os rerolls ficam livres.
+Arsenais usam o prefixo Keitinha e ordem pela popularidade dos caminhos no
+ARAMKit; caminhos sem medida ficam no fim. A ordem visual exige validação.
 AramCartinhaOverlay.exe --demo abre a prévia sem consultar a partida.
 AramCartinhaOverlay.exe --launcher-demo simula a tela de pré-jogo.
 AramCartinhaOverlay.exe --stop fecha as janelas do overlay.

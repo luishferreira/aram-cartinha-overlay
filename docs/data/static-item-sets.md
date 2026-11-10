@@ -2,6 +2,10 @@
 
 **Atualização em 06/11:** os arsenais agora comparam ARAMKit, OP.GG, Mayhem.com e LemonNation dentro de cada caminho. São 485 conjuntos em 173 campeões. Veja [a implementação e validação atuais](item-set-comparisons.md). O restante deste documento descreve a entrega original e sua evolução até a versão 2.
 
+**Atualização em 10/11:** o prefixo dos títulos passa a `Keitinha · `, por exemplo `Keitinha · Ahri · AP`. A importação adapta os títulos antigos dos snapshots sem alterar os UIDs, os caminhos ou os itens. Os conjuntos existentes do projeto são substituídos normalmente na seleção do campeão, sem duplicação; títulos de arsenais de outros aplicativos permanecem preservados.
+
+Na geração `static-item-sets-5`, os caminhos do mesmo campeão recebem `sortrank` crescente a partir de zero, pela popularidade decrescente do caminho geral `filtered` do ARAMKit. A ordem da coleção enviada também segue esse ranking. O cálculo não usa WR, rank publicado (que pode refletir desempenho), popularidade de um núcleo dentro do caminho, nem soma percentuais de outras fontes. Há popularidade para 433 dos 485 caminhos; os 52 sem essa medida ficam depois dos medidos, com desempate pelo título. Zero medido fica antes de ausência. Cada caminho preserva referência, patch e artefato da medida em `provenance.json`; UIDs, blocos e itens permanecem iguais. A importação inclui `sortrank` na conferência e na detecção de alterações. A ordem visual do menu ainda precisa ser confirmada no jogo; a posição relativa aos arsenais de outros apps não foi alterada.
+
 Primeira implementação de builds no jogo. Sem IA, Overwolf, alteração de recomendações durante a partida, compras automáticas ou mudanças em runas/feitiços.
 
 ## Fluxo entregue

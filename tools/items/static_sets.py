@@ -1,5 +1,6 @@
 """Reproducible static item sets from published ARAMKit paths and purchase routes."""
 from collections import Counter
+from collections import defaultdict
 import hashlib
 import json
 from pathlib import Path
@@ -10,8 +11,10 @@ from tools.live.source_cards import SourceReader, metric
 
 from tools.app_paths import app_root
 ROOT = app_root()
-VERSION = "static-item-sets-4"
+VERSION = "static-item-sets-5"
 NAMESPACE = uuid.UUID("2e701da9-4d06-478c-9443-a2fe6965c886")
+TITLE_PREFIX = "Keitinha · "
+LEGACY_TITLE_PREFIXES = ("Mayhem · ", "Mayhem - ")
 LABELS = {"ad":"AD", "ap":"AP", "bruiser":"Lutador", "crit":"Crítico", "hybrid":"Híbrido",
           "lethality":"Letalidade", "on_hit":"On-hit", "tank":"Tanque", "utility":"Utilidade"}
 
@@ -108,7 +111,7 @@ def build_set(champion, path, profiles, label, champion_options=()):
         blocks.append({"type":f'Outras opções de {champion["name"]} · geral',
                        "items":items([row["entity_id"] for row in general])})
     uid = str(uuid.uuid5(NAMESPACE, path["id"]))
-    result = {"uid":uid, "title":f'Mayhem · {champion["name"]} · {LABELS.get(path["native_key"],path["native_key"])}',
+    result = {"uid":uid, "title":f'{TITLE_PREFIX}{champion["name"]} · {LABELS.get(path["native_key"],path["native_key"])}',
               "type":"custom", "map":"any", "mode":"any", "priority":False, "sortrank":0,
               "startedFrom":"blank", "associatedChampions":[champion["id"]], "associatedMaps":[12],
               "preferredItemSlots":[], "blocks":blocks}
@@ -129,7 +132,7 @@ def build_set(champion, path, profiles, label, champion_options=()):
 
 def validate_set(value):
     uuid.UUID(value["uid"])
-    if not value["title"].startswith("Mayhem · ") or not value["blocks"]:
+    if not value["title"].startswith((TITLE_PREFIX, *LEGACY_TITLE_PREFIXES)) or not value["blocks"]:
         raise ValueError("Invalid managed item set")
     if len(value["associatedChampions"]) != 1 or value["associatedChampions"][0] <= 0:
         raise ValueError("Invalid champion association")
@@ -139,6 +142,46 @@ def validate_set(value):
         for entry in block["items"]:
             if not re.fullmatch(r"[1-9]\d*", entry["id"]) or type(entry["count"]) is not int or not 1<=entry["count"]<=99:
                 raise ValueError("Invalid native item entry")
+
+
+def order_sets_by_popularity(sets, evidence, db):
+    """Use the champion's path popularity, never a core's conditional pick rate or WR."""
+    popularity = {}
+    for row in db.execute('SELECT o.champion_id,o.context_json,o.metrics_json,o.patch,o.artifact,o.selector '
+                          'FROM observations o JOIN snapshots s ON s.id=o.snapshot_id '
+                          'WHERE s.source="aramkit" AND o.scope="champion_build"'):
+        context = json.loads(row['context_json'])
+        if context.get('selection') != 'filtered':
+            continue
+        value = json.loads(row['metrics_json']).get('pick_rate', {}).get('value')
+        if type(value) not in (int, float) or not 0 <= value <= 1:
+            continue
+        key = (row['champion_id'], context.get('archetype'))
+        if key in popularity and popularity[key]['pick_rate'] != value:
+            raise ValueError('Ambiguous path popularity: '+str(key))
+        popularity[key] = {'pick_rate':value, 'source':'aramkit', 'patch':row['patch'],
+                           'artifact':row['artifact'], 'selector':row['selector']}
+    groups = defaultdict(list)
+    for item_set in sets:
+        uid = item_set['uid']
+        champion_id = item_set['associatedChampions'][0]
+        path_key = evidence[uid]['path_id'].rsplit(':', 1)[1]
+        reference = popularity.get((f'champion:game:{champion_id}', path_key))
+        evidence[uid]['ordering'] = {'method':'champion_path_popularity_desc',
+            'scope':'aramkit_filtered_champion_build', 'reference':reference,
+            'missing_data':'after_measured_paths; title_tiebreak'}
+        groups[champion_id].append(item_set)
+    ordered = []
+    for champion_id, group in sorted(groups.items()):
+        def key(item_set):
+            ref = evidence[item_set['uid']]['ordering']['reference']
+            return (ref is None, -ref['pick_rate'] if ref else 0,
+                    item_set['title'].casefold(), item_set['uid'])
+        for rank, item_set in enumerate(sorted(group, key=key)):
+            item_set['sortrank'] = rank
+            evidence[item_set['uid']]['ordering']['sortrank'] = rank
+            ordered.append(item_set)
+    return ordered
 
 
 def export_all(root=ROOT):
@@ -167,7 +210,7 @@ def export_all(root=ROOT):
             'SELECT entity_id,attributes_json FROM catalog WHERE entity_id LIKE "item:game:%"')
             if json.loads(row["attributes_json"]).get("category")=="legendary"}
         general_cache = {}
-        sets, evidence, files = [], {}, {}
+        sets, evidence, files, filenames = [], {}, {}, {}
         for path in paths:
             champion = champions[path["champion_id"]]
             if not re.fullmatch(r"[A-Za-z0-9]+", champion["key"]):
@@ -198,9 +241,12 @@ def export_all(root=ROOT):
             value, provenance = comparison.compose(champion,path,profiles,baseline,old_evidence)
             validate_set(value)
             filename = f'champions/{champion["key"]}/mayhem-{path["native_key"]}.json'
-            files[filename] = encode(value)
+            filenames[value['uid']] = filename
             sets.append(value)
             evidence[value["uid"]] = provenance
+        sets = order_sets_by_popularity(sets, evidence, reader.db)
+        for value in sets:
+            files[filenames[value['uid']]] = encode(value)
         actual = {value["associatedChampions"][0] for value in sets}
         if actual != {c["id"] for c in catalog} or len(sets) != len(paths):
             raise ValueError("Incomplete champion/path coverage")

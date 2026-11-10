@@ -86,6 +86,14 @@ def self_test(report):
         bundle,_=load_export(app_root())
         result['item_sets']=len(bundle['itemSets'])
         result['champions']=len({s['associatedChampions'][0] for s in bundle['itemSets']})
+        from tools.items.static_sets import TITLE_PREFIX
+        result['item_set_titles']=all(s['title'].startswith(TITLE_PREFIX) for s in bundle['itemSets'])
+        groups={}
+        for item_set in bundle['itemSets']:
+            groups.setdefault(item_set['associatedChampions'][0],[]).append(item_set.get('sortrank'))
+        result['item_set_order']=all(ranks==list(range(len(ranks))) for ranks in groups.values())
+        if not result['item_set_titles'] or not result['item_set_order']:
+            raise RuntimeError('Item set names or ordering are missing from the data pack')
         if result['champions']!=manifest['champions'] or not result['card_read'] or not result['combo_read']:
             raise RuntimeError('Incomplete installed data')
         importer=Importer(bundle)

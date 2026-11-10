@@ -1,6 +1,6 @@
 # Executável e instalador Windows
 
-A versão publicada `0.1.0-alpha.12` empacota launcher e overlay com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado e os retratos para a seleção visual e a consulta inicial também estão incluídos. A interface usa uma faixa compacta de status e busca incremental. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente. A [documentação do launcher](launcher.md) descreve a seleção e o gerenciamento de atualizações.
+A versão publicada `0.1.0-alpha.13` empacota launcher e overlay com Python 3.12, Tkinter, Pillow e NumPy. O pacote de dados verificado e os retratos para a seleção visual e a consulta inicial também estão incluídos. A interface usa uma faixa compacta de status e busca incremental. O usuário final não precisa instalar Python, executar pip ou baixar/configurar a base separadamente. A [documentação do launcher](launcher.md) descreve a seleção e o gerenciamento de atualizações.
 
 ## Entregas
 
@@ -32,6 +32,8 @@ Foi usado PyInstaller 6.22.3 e Inno Setup 7.1.1 x64. O compilador Inno foi baixa
 Os fontes de empacotamento ficam em `packaging/windows/`. O resultado fica em `dist/<versão>/`, incluindo ZIP portátil, Setup, `SHA256SUMS.txt` e `build-manifest.json`. Os binários ficam fora do Git; são anexos de release. O manifesto registra commit e se havia alterações locais no build, sem alegar uma compilação binária determinística.
 
 Os scripts PowerShell de OCR/captura são recursos explícitos do bundle. A execução de utilitários do Windows usa o caminho do sistema e limpa temporariamente a configuração de busca de DLLs do PyInstaller para o processo filho. Dependências Python são carregadas do próprio bundle.
+
+A partir da alpha.13, após a análise de [falhas em outro PC](data/friend-startup-2026-11-10.md), os scripts de OCR/captura usam `-NonInteractive -ExecutionPolicy Bypass` somente no processo auxiliar, sem mudar a configuração permanente do Windows. O diagnóstico preserva o código de saída e um trecho limitado do erro do worker; erro de idioma/engine também é reportado. Os ajustes ainda precisam de validação no PC afetado.
 
 ## Diagnóstico e testes
 
